@@ -1,8 +1,9 @@
 {
-    "words": ["A", "B", "C", "D", "E"],
+    "id": 1,
+    "words": ["A"],
     "start-time": "2023-01-01T00:00:00Z",
     "end-time": "2025-01-01T00:00:00Z",
-    "score": [10, -2, 0, 0, 50],
+    "score": [10],
     "total-score": 5,
-    "weights": [15, 50, 50, 50, 100]
+    "weights": [15]
 }

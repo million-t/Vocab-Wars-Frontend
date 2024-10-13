@@ -1,15 +1,15 @@
 .flipCard {
   background-color: transparent;
-  width: 70px;
-  height: 70px;
+  width: 60px;
+  height: 60px;
   perspective: 1000px;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 .nonFocusFlipCard {
   background-color: transparent;
-  width: 70px;
-  height: 70px;
+  width: 60px;
+  height: 60px;
   perspective: 1000px;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
@@ -18,9 +18,9 @@
   font-size: 2.25em;
   font-weight: 900;
   text-align: center;
-  align-items: bottom;
+  /* align-items: center; */
   margin: 0;
-  padding: 6px;
+  /* padding: 6px; */
   caret-color: transparent;
   display: inline-block;
   width: 100%;

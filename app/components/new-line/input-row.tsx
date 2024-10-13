@@ -4,8 +4,9 @@ import style from "./input-row.module.css";
 
 interface InputRowProps {
   cellCount: number;
-  enabled: boolean;
+  enabled: number;
   focusIndex: number;
+  gridNum: number;
   word: string;
   setFocusIndex: (index: number) => void;
   onSubmit: (result: string) => void;
@@ -16,6 +17,7 @@ const InputRow: React.FC<InputRowProps> = ({
   cellCount,
   onSubmit,
   enabled,
+  gridNum,
   focusIndex,
   setFocusIndex,
   word
@@ -126,7 +128,7 @@ const InputRow: React.FC<InputRowProps> = ({
       }
     }, [submitted]);
     useEffect(() => {
-      if (enabled && i === focusIndex) {
+      if (enabled === gridNum && i === focusIndex) {
         inputRefs.current[i]?.focus();
       }
     }, [enabled]);
@@ -136,7 +138,7 @@ const InputRow: React.FC<InputRowProps> = ({
     <div className="flex gap-1">
       {values.map((_, index) => (
         <div
-          className={enabled ? style.flipCard : style.nonFocusFlipCard}
+          className={enabled === gridNum ? style.flipCard : style.nonFocusFlipCard}
           key={index}
         >
           <div
@@ -149,8 +151,8 @@ const InputRow: React.FC<InputRowProps> = ({
                 id={`${index}`}
                 tabIndex={isFlipped[index] > 0 ? -1 : 0}
                 key={index}
-                className={enabled ? style.title : style.nonFocusTitle}
-                contentEditable={enabled}
+                className={enabled === gridNum ? style.title : style.nonFocusTitle}
+                contentEditable={true}
                 onInput={(event) => handleChange(index, event as any)}
                 onKeyDown={(event) => handleKeyDown(index, event)}
                 ref={(el) => {

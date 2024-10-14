@@ -10,7 +10,6 @@ interface GridProps {
   gridOnFocus: boolean;
   acceptsInputs: boolean;
   currentRow: number;
-  found: boolean;
 }
 const token = "";
 function Grid({
@@ -19,11 +18,11 @@ function Grid({
   gridOnFocus,
   acceptsInputs,
   currentRow,
-  found,
 }: GridProps) {
   const [focusRow, setFocusRow] = useState(0);
   const [focusIndex, setFocusIndex] = useState(0);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [found, setFound] = useState(false);
   return (
     <div className="flex flex-col gap-2  ">
       {[...Array(rowCount)].map((_, index) => (
@@ -40,10 +39,12 @@ function Grid({
           focusIndex={focusIndex}
           setFocusRow={setFocusRow}
           setFocusIndex={setFocusIndex}
-          rowNum = {index}
+          rowNum={index}
           guess_text={[]}
           isSubmitted={isSubmitted}
           setIsSubmitted={setIsSubmitted}
+          found={found}
+          setFound={setFound}
         />
       ))}
     </div>

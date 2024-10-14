@@ -16,13 +16,15 @@ interface GridRowProps {
   guess_text: string[];
   rowNum: number;
   isSubmitted: boolean;
+  found: boolean;
+  setFound: (found: boolean) => void;
   setIsSubmitted: (isSubmitted: boolean) => void;
   setFocusRow: (index: number) => void;
   setFocusIndex: (index: number) => void;
 }
 
 const token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI4OTA2NDc3LCJpYXQiOjE3Mjg5MDQ2NzcsImp0aSI6Ijc0YjE0ZWM3ODkxYjRmNTE5MWM1NDA3ZjIyOGUyYTEzIiwidXNlcl9pZCI6MX0.An_kM2BvauBSReufmBhO7MwOXxPYa27YToRwhCAQtL0";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI4OTE1NDkyLCJpYXQiOjE3Mjg5MTM2OTIsImp0aSI6IjJjYzllN2UyYmM1MDQ4YWZhN2I1ZjAwNDBkNDc0NjY4IiwidXNlcl9pZCI6MX0.wp6SZEuyujvEANl39AY0BA3542Eb4AJQspryzlLo5wQ";
 
 const GridRow: React.FC<GridRowProps> = ({
   cellCount = 5,
@@ -40,6 +42,8 @@ const GridRow: React.FC<GridRowProps> = ({
   setFocusIndex,
   isSubmitted,
   setIsSubmitted,
+  found,
+  setFound,
 }) => {
   // const [isSubmitted, setIsSubmitted] = useState(submitted);
   const [guess_score, setGuessScore] = useState([0, 0, 0, 0, 0]);
@@ -158,7 +162,12 @@ const GridRow: React.FC<GridRowProps> = ({
           setFocusIndex(0);
           console.log("focusRow", focusRow, rowNum);
           console.log("focusIndex", focusIndex);
+          if (data.correct) {
+            setFound(true);
+            setFocusIndex(-1);
+          }
         });
+        // console.log("done");
       } else {
         throw new Error("Failed to submit guess");
       }
@@ -181,7 +190,7 @@ const GridRow: React.FC<GridRowProps> = ({
           }
         }, i * 100);
       }
-    }, [isSubmitted]);
+    }, [focusRow]);
     useEffect(() => {
       if (
         gridOnFocus &&
@@ -191,7 +200,7 @@ const GridRow: React.FC<GridRowProps> = ({
       ) {
         inputRefs.current[i]?.focus();
       }
-    }, [isSubmitted, focusRow]);
+    }, [focusRow]);
   }
   // =================================================== return ===================================================
 
@@ -214,7 +223,7 @@ const GridRow: React.FC<GridRowProps> = ({
             <div className={style.flipCardFront}>
               <span
                 id={`${index}`}
-                tabIndex={isFlipped[index] > 0 ? -1 : 0}
+                tabIndex={isFlipped[index] > 0 || found ? -1 : 0}
                 key={index}
                 className={`${
                   gridOnFocus && focusRow === rowNum && acceptsInputs
@@ -222,7 +231,7 @@ const GridRow: React.FC<GridRowProps> = ({
                     : style.nonFocusTitle
                 } `}
                 contentEditable={
-                  gridOnFocus && focusRow === rowNum && acceptsInputs
+                  gridOnFocus && focusRow === rowNum && acceptsInputs && !found
                 }
                 onInput={(event) => handleChange(index, event as any)}
                 onKeyDown={(event) => handleKeyDown(index, event)}

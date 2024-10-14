@@ -31,7 +31,7 @@ export default function RootLayout({
       >
         <div className="flex  flex-col md:flex-row">
           <div className="flex flex-col  h-full bg-slate-200">
-            <SideNav />
+            {/* <SideNav /> */}
           </div>
 
           {children}

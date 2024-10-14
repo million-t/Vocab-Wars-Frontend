@@ -6,15 +6,18 @@ import UnfilledRow from "./unfilled-row";
 
 const rowCount = 6;
 
-function Grid({word, gridNum, enabled}: {word: string, gridNum: number, enabled:number}) {
+function Grid({word, gridNum, enabled, contestId}: {word: string, gridNum: number, enabled:number, contestId: number}) {
   const [curRow, setCurRow] = useState(0);
   const [focusIndex, setFocusIndex] = useState(0);
   const [isWon, setIsWon] = useState(false);
   const onSubmit = (result: string) => {
     // setCurRow(curRow + 1);
     setFocusIndex(0);   
-    console.log(curRow)
+    
+    
   };
+
+
 
   
 

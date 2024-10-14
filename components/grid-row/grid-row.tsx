@@ -1,27 +1,48 @@
 "use client";
 import React, { useRef, useState, useEffect } from "react";
-import style from "./input-row.module.css";
+import style from "./grid-row.module.css";
+import { FaLock } from "react-icons/fa";
 
-interface InputRowProps {
+interface GridRowProps {
   cellCount: number;
-  enabled: number;
+  submitted: boolean;
+  guess_num: number;
+  acceptsInputs: boolean;
+  gridOnFocus: boolean;
+  focusRow: number;
   focusIndex: number;
-  gridNum: number;
-  word: string;
+  contestId: number;
+  wordId: number;
+  guess_text: string[];
+  rowNum: number;
+  isSubmitted: boolean;
+  setIsSubmitted: (isSubmitted: boolean) => void;
+  setFocusRow: (index: number) => void;
   setFocusIndex: (index: number) => void;
-  onSubmit: (result: string) => void;
 }
 
-const InputRow: React.FC<InputRowProps> = ({
-  cellCount,
-  onSubmit,
-  enabled,
-  gridNum,
+const token =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI4OTA2NDc3LCJpYXQiOjE3Mjg5MDQ2NzcsImp0aSI6Ijc0YjE0ZWM3ODkxYjRmNTE5MWM1NDA3ZjIyOGUyYTEzIiwidXNlcl9pZCI6MX0.An_kM2BvauBSReufmBhO7MwOXxPYa27YToRwhCAQtL0";
+
+const GridRow: React.FC<GridRowProps> = ({
+  cellCount = 5,
+  submitted,
+  guess_num,
+  acceptsInputs,
+  gridOnFocus,
+  focusRow,
+  contestId,
+  wordId,
   focusIndex,
+  guess_text = [],
+  rowNum,
+  setFocusRow,
   setFocusIndex,
-  word,
+  isSubmitted,
+  setIsSubmitted,
 }) => {
-  const answer = word;
+  // const [isSubmitted, setIsSubmitted] = useState(submitted);
+  const [guess_score, setGuessScore] = useState([0, 0, 0, 0, 0]);
   const inputRefs = useRef<HTMLSpanElement[]>([]);
   const flippedStates = Array.from({ length: cellCount }).map(() =>
     useState(0)
@@ -33,7 +54,6 @@ const InputRow: React.FC<InputRowProps> = ({
       return { id: index, value: "" };
     })
   );
-  const [submitted, setSubmitted] = useState(false);
 
   const handleChange = (
     index: number,
@@ -101,45 +121,89 @@ const InputRow: React.FC<InputRowProps> = ({
   const unfocusSpan = (index: number) => {
     inputRefs.current[index]?.blur();
   };
+  // const handleSubmit = () => {
+  //   const result = values.map((value) => value.value.trim()).join("");
+  //   console.log(result);
+  //   if (result.length < cellCount) {
+  //     return;
+  //   }
+  // };
+
   const handleSubmit = () => {
-    const result = values.map((value) => value.value.trim()).join("");
-    console.log(result);
-    if (result.length < cellCount) {
+    const guess = values.map((value) => value.value.trim()).join("");
+    console.log(guess);
+    if (guess.length < cellCount) {
       return;
     }
-    setSubmitted(true);
-    fetch("/api/word", {}).then((res) => {});
+    fetch(`http://127.0.0.1:8000/api/contests/${contestId}/submit_guess/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        word_id: wordId,
+        guess_text: guess,
+      }),
+    }).then((response) => {
+      if (response.ok) {
+        console.log("response ok!!");
+        response.json().then((data) => {
+          setIsSubmitted(true);
+          console.log(data.data);
+          setGuessScore(data.data);
+
+          guess_text = values.map((value) => value.value.trim());
+          setFocusRow(rowNum + 1);
+          setFocusIndex(0);
+          console.log("focusRow", focusRow, rowNum);
+          console.log("focusIndex", focusIndex);
+        });
+      } else {
+        throw new Error("Failed to submit guess");
+      }
+    });
   };
+
+  // ===================================================
 
   for (let i = 0; i < cellCount; i++) {
     useEffect(() => {
-      if (submitted) {
+      if (isSubmitted && focusRow - 1 === rowNum) {
         unfocusSpan(i);
         setTimeout(() => {
-          if (values[i].value === answer[i]) {
+          if (guess_score[i] == 3) {
             setIsFlipped[i](3);
-          } else if (answer.includes(values[i].value)) {
+          } else if (guess_score[i] == 2) {
             setIsFlipped[i](2);
           } else {
             setIsFlipped[i](1);
           }
         }, i * 100);
       }
-    }, [submitted]);
+    }, [isSubmitted]);
     useEffect(() => {
-      if (enabled === gridNum && i === focusIndex) {
+      if (
+        gridOnFocus &&
+        acceptsInputs &&
+        focusRow === rowNum &&
+        i === focusIndex
+      ) {
         inputRefs.current[i]?.focus();
       }
-    }, [enabled]);
+    }, [isSubmitted, focusRow]);
   }
+  // =================================================== return ===================================================
 
   return (
     <div className="flex gap-1">
       {values.map((_, index) => (
         <div
-          className={
-            enabled === gridNum ? style.flipCard : style.nonFocusFlipCard
-          }
+          className={`${
+            gridOnFocus && focusRow === rowNum && acceptsInputs
+              ? style.flipCard
+              : style.nonFocusFlipCard
+          } w-[40px] h-[40px] md:w-[60px] md:h-[60px] rounded-md shadow-cell overflow-hidden text-2xl md:text-4xl font-black`}
           key={index}
         >
           <div
@@ -152,10 +216,14 @@ const InputRow: React.FC<InputRowProps> = ({
                 id={`${index}`}
                 tabIndex={isFlipped[index] > 0 ? -1 : 0}
                 key={index}
-                className={
-                  enabled === gridNum ? style.title : style.nonFocusTitle
+                className={`${
+                  gridOnFocus && focusRow === rowNum && acceptsInputs
+                    ? style.title
+                    : style.nonFocusTitle
+                } `}
+                contentEditable={
+                  gridOnFocus && focusRow === rowNum && acceptsInputs
                 }
-                contentEditable={true}
                 onInput={(event) => handleChange(index, event as any)}
                 onKeyDown={(event) => handleKeyDown(index, event)}
                 ref={(el) => {
@@ -163,9 +231,10 @@ const InputRow: React.FC<InputRowProps> = ({
                     inputRefs.current[index] = el;
                   }
                 }}
-              ></span>
+              >
+                {/* {(!isSubmitted && !rowOnFocus) ? <FaLock className="text-gray-200 block"/> : null} */}
+              </span>
             </div>
-
             <div
               className={
                 isFlipped[index] === 1
@@ -184,4 +253,4 @@ const InputRow: React.FC<InputRowProps> = ({
   );
 };
 
-export default InputRow;
+export default GridRow;

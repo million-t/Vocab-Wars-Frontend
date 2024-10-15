@@ -24,7 +24,7 @@ interface GridRowProps {
 }
 
 const token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI4OTE1NDkyLCJpYXQiOjE3Mjg5MTM2OTIsImp0aSI6IjJjYzllN2UyYmM1MDQ4YWZhN2I1ZjAwNDBkNDc0NjY4IiwidXNlcl9pZCI6MX0.wp6SZEuyujvEANl39AY0BA3542Eb4AJQspryzlLo5wQ";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI4OTc0OTQ1LCJpYXQiOjE3Mjg5NzMxNDUsImp0aSI6IjgyNzE2NWRhNDFlYzQ2MGM4OTc3MDllYzNmMTRkM2VlIiwidXNlcl9pZCI6MX0.d0FVJSW07qKH83U6vCiKrJ-KgRr4ZSqVJpsVCrjI27Q";
 
 const GridRow: React.FC<GridRowProps> = ({
   cellCount = 5,
@@ -139,6 +139,7 @@ const GridRow: React.FC<GridRowProps> = ({
     if (guess.length < cellCount) {
       return;
     }
+
     fetch(`http://127.0.0.1:8000/api/contests/${contestId}/submit_guess/`, {
       method: "POST",
       headers: {

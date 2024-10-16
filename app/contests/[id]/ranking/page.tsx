@@ -22,7 +22,7 @@ const Rank = () => {
         .then((response) => {
           if (response.ok) {
             response.json().then((data) => {
-              setStandings(data.standings)
+              setStandings(data.standings);
               console.log(data.standings);
             });
           }
@@ -32,16 +32,19 @@ const Rank = () => {
         });
     }
   }, [id]);
-  return <div className="flex flex-col justify-center">
-    {standings.map((standing, index) => {
-      console.log(standing)
-      return (
-        <div key={index} className="flex justify-between gap-3">
-          <div>name: {standing.user}</div>
-          <div>score: {standing.score} </div>
-        </div>)
-    })}
-  </div>;
+  return (
+    <div className="flex flex-col justify-center">
+      {standings.map((standing, index) => {
+        console.log(standing);
+        return (
+          <div key={index} className="flex justify-between gap-3">
+            <div>name: {standing.user}</div>
+            <div>score: {standing.score} </div>
+          </div>
+        );
+      })}
+    </div>
+  );
 };
 
 export default Rank;

@@ -24,7 +24,7 @@ function Grid({
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [found, setFound] = useState(false);
   return (
-    <div className="flex flex-col gap-2  ">
+    <div className="flex flex-col gap-[2px] md:gap-1  ">
       {[...Array(rowCount)].map((_, index) => (
         <GridRow
           key={index}

@@ -54,18 +54,18 @@ export const getRefreshToken = () => {
 };
 
 export const refreshToken = async () => {
-  const refreshToken = getRefreshToken();
-  if (!refreshToken) {
+  const refresh = getRefreshToken();
+  if (!refresh) {
     throw new Error("No refresh token available");
   }
 
   try {
     const response = await axios.post(`${API_BASE_URL}/login/refresh/`, {
-      refreshToken,
+      refresh,
     });
-    const { token } = response.data;
-    localStorage.setItem(TOKEN_KEY, token);
-    return token;
+    const { access } = response.data;
+    localStorage.setItem(TOKEN_KEY, access);
+    return access;
   } catch (error) {
     console.error("Error refreshing access token:", error);
     throw error;

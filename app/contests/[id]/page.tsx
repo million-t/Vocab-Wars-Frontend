@@ -6,8 +6,12 @@ const Contest = () => {
   return (
     <div className="w-full flex flex-col items-center p-2 md:p-8">
       <div className="relative w-full max-w-5xl min-h-96  rounded-t-xl overflow-hidden">
-        <div className="absolute w-full h-full z-10 bg-gradient-to-r from-slate-900  to-transparent"></div>
-        <Image src={WarImage} className="absolute w-full h-full object-cover" alt="warImage" />
+        <div className="absolute w-full h-full z-10 bg-gradient-to-r from-slate-900 to-transparent"></div>
+        <Image
+          src={WarImage}
+          className="absolute w-full h-full object-cover"
+          alt="warImage"
+        />
         <p className="absolute z-20 m-6 text-sm  md:text-base text-gray-300 font-thin max-w-xl ">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam, nulla
           similique consectetur quos aut optio repellat enim officia, laborum

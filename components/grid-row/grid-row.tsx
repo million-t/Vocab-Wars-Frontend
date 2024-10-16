@@ -1,7 +1,7 @@
 "use client";
 import React, { useRef, useState, useEffect } from "react";
 import style from "./grid-row.module.css";
-import { FaLock } from "react-icons/fa";
+import { submitGuess, getGuesses } from "@/services/apiServices";
 
 interface GridRowProps {
   cellCount: number;
@@ -22,9 +22,6 @@ interface GridRowProps {
   setFocusRow: (index: number) => void;
   setFocusIndex: (index: number) => void;
 }
-
-const token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI4OTc0OTQ1LCJpYXQiOjE3Mjg5NzMxNDUsImp0aSI6IjgyNzE2NWRhNDFlYzQ2MGM4OTc3MDllYzNmMTRkM2VlIiwidXNlcl9pZCI6MX0.d0FVJSW07qKH83U6vCiKrJ-KgRr4ZSqVJpsVCrjI27Q";
 
 const GridRow: React.FC<GridRowProps> = ({
   cellCount = 5,
@@ -133,49 +130,54 @@ const GridRow: React.FC<GridRowProps> = ({
   //   }
   // };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const guess = values.map((value) => value.value.trim()).join("");
     console.log(guess);
     if (guess.length < cellCount) {
       return;
     }
 
-    fetch(`http://127.0.0.1:8000/api/contests/${contestId}/submit_guess/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        word_id: wordId,
-        guess_text: guess,
-      }),
-    }).then((response) => {
-      if (response.ok) {
-        console.log("response ok!!");
-        response.json().then((data) => {
-          setIsSubmitted(true);
-          console.log(data.data);
-          setGuessScore(data.data);
+    try {
+      const response = await submitGuess(contestId, guess, "A", wordId);
+      if (response.status === 200) {
+        setIsSubmitted(true);
+        // console.log(response.data.data);
+        setGuessScore(response.data.data);
 
-          guess_text = values.map((value) => value.value.trim());
-          setFocusRow(rowNum + 1);
-          setFocusIndex(0);
-          console.log("focusRow", focusRow, rowNum);
-          console.log("focusIndex", focusIndex);
-          if (data.correct) {
-            setFound(true);
-            setFocusIndex(-1);
-          }
-        });
-        // console.log("done");
-      } else {
-        throw new Error("Failed to submit guess");
+        guess_text = values.map((value) => value.value.trim());
+        setFocusRow(rowNum + 1);
+        setFocusIndex(0);
+        // console.log("focusRow", focusRow, rowNum);
+        // console.log("focusIndex", focusIndex);
+        if (response.data.correct) {
+          setFound(true);
+          setFocusIndex(-1);
+        }
       }
-    });
+    } catch (error) {
+      console.error("Error submitting guess", error);
+    }
   };
 
-  // ===================================================
+  // =================================================== useEffect ===================================================
+  // useEffect(() => {
+  //   const fetchGuesses = async () => {
+  //     try {
+  //       const response = await getGuesses(contestId, wordId);
+  //       if (response.status === 200) {
+  //         const guesses = response.data;
+          
+  //         console.log(guesses);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching guesses", error);
+  //     }
+  //   };
+
+  //   fetchGuesses();
+  // }, []);
+
+  // =================================================== submission animation =========================================
 
   for (let i = 0; i < cellCount; i++) {
     useEffect(() => {
@@ -203,17 +205,18 @@ const GridRow: React.FC<GridRowProps> = ({
       }
     }, [focusRow]);
   }
+
   // =================================================== return ===================================================
 
   return (
-    <div className="flex gap-1">
+    <div className="flex gap-[2px] md:gap-1">
       {values.map((_, index) => (
         <div
           className={`${
             gridOnFocus && focusRow === rowNum && acceptsInputs
               ? style.flipCard
               : style.nonFocusFlipCard
-          } w-[40px] h-[40px] md:w-[60px] md:h-[60px] rounded-md shadow-cell overflow-hidden text-2xl md:text-4xl font-black`}
+          } w-[40px] h-[40px] md:w-[60px] md:h-[60px] rounded-sm md:rounded-md shadow-cell overflow-hidden text-2xl md:text-4xl font-black`}
           key={index}
         >
           <div
@@ -241,9 +244,7 @@ const GridRow: React.FC<GridRowProps> = ({
                     inputRefs.current[index] = el;
                   }
                 }}
-              >
-                {/* {(!isSubmitted && !rowOnFocus) ? <FaLock className="text-gray-200 block"/> : null} */}
-              </span>
+              ></span>
             </div>
             <div
               className={

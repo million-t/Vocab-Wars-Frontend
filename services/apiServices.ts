@@ -43,39 +43,44 @@ api.interceptors.response.use(
 );
 
 export const getContests = async () => {
-  return await api.get("contests/");
+  return await api.get("/contests/");
 };
 
 export const getContest = async (id: number) => {
-  return await api.get(`contests/${id}/`);
+  return await api.get(`/contests/${id}/`);
 };
 
 export const getContestWords = async (id: number) => {
-  return await api.get(`contests/${id}/words/`);
+  return await api.get(`/contests/${id}/words/`);
 };
 
 export const getContestRanking = async (id: number) => {
-  return await api.get(`contests/${id}/standings/`);
+  return await api.get(`/contests/${id}/standings/`);
 };
 
 export const submitGuess = async (
   id: number,
-  guess: string,
+  guess_text: string,
   word_position: string,
   word_id: number
 ) => {
-  return await api.post(`contests/${id}/submit_guess/`, {
-    guess,
+  return await api.post(`/contests/${id}/submit_guess/`, {
+    guess_text,
     word_position,
     word_id,
   });
 };
 
 export const registerContest = async (id: number) => {
-  return await api.post(`contests/${id}/register/`);
+  return await api.post(`/contests/${id}/register/`);
 };
 
 export const createContest = async (data: any) => {
-  return await api.post("contests/", data);
+  return await api.post("/contests/", data);
 };
 
+export const getGuesses = async (contest_id: number, word_id: number) => {
+  return await api.get(`/contests/${contest_id}/get_word_guesses/`, {
+    params: { word_id },
+  });
+};

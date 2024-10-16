@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import SideNav from "./components/side-nav/side-nav";
+
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -31,7 +31,7 @@ export default function RootLayout({
       >
         <div className="flex  flex-col md:flex-row">
           <div className="flex flex-col  h-full bg-slate-200">
-            {/* <SideNav /> */}
+            
           </div>
 
           {children}

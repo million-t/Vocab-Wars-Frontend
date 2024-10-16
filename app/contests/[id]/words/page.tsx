@@ -39,7 +39,7 @@ export default function ContestWords() {
   return (
     <div className="mt-4 flex flex-col items-center">
       {/* Nav */}
-      <div className="flex  w-full justify-center items-center outline outline-1 outline-[#262626] p-4">
+      <div className="flex w-full justify-center items-center outline outline-1 outline-[#262626] p-4">
         <div className="w-full max-w-md">
           <div className=" w-full p-[1px] bg-gradient-to-bl from-[#DA8C38] via-transparent to-[#F19027] rounded">
             <div
@@ -98,7 +98,7 @@ export default function ContestWords() {
         </div>
         <Link
           href={`/contests/${1}/ranking`}
-          className="h-full p-1 w-full max-w-20 "
+          className="h-full p-1 md:w-full max-w-20 "
         >
           <button
             className={`${style.navItem} ${style.rankButton} px-2 w-full h-10  bg-gradient-to-tr from-transparent   to-[#F19027]  rounded-r italic text-gray-200 font-light outline outline-1 outline-[#262626]`}
@@ -109,7 +109,7 @@ export default function ContestWords() {
       </div>
 
       {/* Grid */}
-      <div className="w-full outline outline-1 outline-[#262626]   flex justify-center">
+      <div className="w-full outline outline-1 outline-[#262626] flex justify-center">
         <div className="w-full max-w-[260px] md:max-w-[360px] flex overflow-hidden outline outline-1 outline-[#262626] bg-[#141414]">
           {Array.from({ length: 4 }).map((_, index) => {
             return (
@@ -144,7 +144,7 @@ export default function ContestWords() {
             return (
               <button
                 key={index}
-                className={`p-2 bg-[#141414] outline outline-1 outline-[#262626] w-full rounded ${
+                className={`transition-all duration-300 p-2 bg-[#141414] outline outline-1 outline-[#262626] w-full rounded ${
                   charInfo[letter.charCodeAt(0) - 65] === 3
                     ? "shadow-inner  shadow-[#88d66c]/50 text-[#80d162]"
                     : charInfo[letter.charCodeAt(0) - 65] === 2
@@ -164,14 +164,14 @@ export default function ContestWords() {
             return (
               <button
                 key={index}
-                className={`p-2 bg-[#141414] outline outline-1 outline-[#262626] w-full rounded ${
+                className={`transition-all duration-300 p-2 bg-[#141414] outline outline-1 outline-[#262626] w-full rounded ${
                   charInfo[letter.charCodeAt(0) - 65] === 3
                     ? "shadow-inner  shadow-[#88d66c]/50 text-[#80d162]"
                     : charInfo[letter.charCodeAt(0) - 65] === 2
                     ? "shadow-inner  shadow-[#F19027]/50 text-[#ddb861]"
                     : charInfo[letter.charCodeAt(0) - 65] === 1
                     ? "shadow-inner  shadow-[#FFFFFF]/25 text-[#262626] "
-                    : "shadow-sm shadow-[#454545]"
+                    : "shadow-sm shadow-[#454545] "
                 }`}
               >
                 {letter}
@@ -188,7 +188,7 @@ export default function ContestWords() {
             return (
               <button
                 key={index}
-                className={`p-2 bg-[#141414] outline outline-1 outline-[#262626] w-full rounded ${
+                className={`transition-all duration-300 p-2 bg-[#141414] outline outline-1 outline-[#262626] w-full rounded ${
                   charInfo[letter.charCodeAt(0) - 65] === 3
                     ? "shadow-inner  shadow-[#88d66c]/50 text-[#80d162]"
                     : charInfo[letter.charCodeAt(0) - 65] === 2

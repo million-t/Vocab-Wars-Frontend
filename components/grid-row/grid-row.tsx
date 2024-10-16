@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, act } from "react";
 import style from "./grid-row.module.css";
 import { submitGuess, getGuesses } from "@/services/apiServices";
 
@@ -250,10 +250,15 @@ const GridRow: React.FC<GridRowProps> = ({
           newCharInfo[values[i].value.charCodeAt(0) - 65] = guess_score[i];
         }
       }
-      // console.log(newCharInfo);
       setCurCharInfo(newCharInfo);
     }
   }, [guess_score]);
+  useEffect(() => {
+    if (gridOnFocus) {
+      const newCharInfo = [...curCharInfo];
+      setCurCharInfo(newCharInfo);
+    }
+  }, [gridOnFocus]);
 
   // =================================================== return ===================================================
 

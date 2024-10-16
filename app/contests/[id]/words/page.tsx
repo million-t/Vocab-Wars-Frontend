@@ -21,6 +21,9 @@ export default function ContestWords() {
     setActiveIndex(index);
     // Todo
   };
+  const [charInfo, setCharInfo] = useState<number[]>(
+    Array.from({ length: 26 }, () => 0)
+  );
 
   useEffect(() => {
     if (containerRef.current) {
@@ -34,9 +37,9 @@ export default function ContestWords() {
   }, [activeIndex]);
 
   return (
-    <div className="mt-4 flex flex-col items-center gap-8 ">
+    <div className="mt-4 flex flex-col items-center">
       {/* Nav */}
-      <div className="flex  w-full justify-center items-center  ">
+      <div className="flex  w-full justify-center items-center outline outline-1 outline-[#262626] p-4">
         <div className="w-full max-w-md">
           <div className=" w-full p-[1px] bg-gradient-to-bl from-[#DA8C38] via-transparent to-[#F19027] rounded">
             <div
@@ -95,10 +98,10 @@ export default function ContestWords() {
         </div>
         <Link
           href={`/contests/${1}/ranking`}
-          className="h-full p-[2px] w-full max-w-20 "
+          className="h-full p-1 w-full max-w-20 "
         >
           <button
-            className={`${style.navItem} ${style.rankButton} px-2 w-full h-10  bg-gradient-to-tr from-transparent   to-[#F19027]  rounded-r italic text-gray-200 font-light`}
+            className={`${style.navItem} ${style.rankButton} px-2 w-full h-10  bg-gradient-to-tr from-transparent   to-[#F19027]  rounded-r italic text-gray-200 font-light outline outline-1 outline-[#262626]`}
           >
             Rank
           </button>
@@ -106,38 +109,51 @@ export default function ContestWords() {
       </div>
 
       {/* Grid */}
-
-      <div className="w-full max-w-[260px] md:max-w-[360px] flex rounded-sm overflow-hidden">
-        {Array.from({ length: 4 }).map((_, index) => {
-          return (
-            <div
-              key={index}
-              className="p-6 bg-[#141414] transition-transform duration-1000"
-              style={{
-                transform: `translateX(-${
-                  activeIndex !== null ? activeIndex * 100 : 0
-                }%)`,
-                width: `${100 * words.length}%`,
-              }}
-            >
-              <Grid
-                wordId={1}
-                contestId={1}
-                gridOnFocus={index === activeGrid}
-                acceptsInputs={true}
-                currentRow={0}
-              />
-            </div>
-          );
-        })}
+      <div className="w-full outline outline-1 outline-[#262626]   flex justify-center">
+        <div className="w-full max-w-[260px] md:max-w-[360px] flex overflow-hidden outline outline-1 outline-[#262626] bg-[#141414]">
+          {Array.from({ length: 4 }).map((_, index) => {
+            return (
+              <div
+                key={index}
+                className="p-6 bg-[#141414] transition-transform duration-1000"
+                style={{
+                  transform: `translateX(-${
+                    activeIndex !== null ? activeIndex * 100 : 0
+                  }%)`,
+                  width: `${100 * words.length}%`,
+                }}
+              >
+                <Grid
+                  wordId={1}
+                  contestId={1}
+                  gridOnFocus={index === activeGrid}
+                  acceptsInputs={true}
+                  currentRow={0}
+                  setCharInfo={setCharInfo}
+                />
+              </div>
+            );
+          })}
+        </div>
       </div>
 
       {/* Keyboard */}
-      <div className="flex flex-col items-center gap-1 text-[#1A1A1A]">
+      <div className="flex flex-col items-center gap-1 py-4">
         <div className="flex gap-[2px] md:gap-1 w-full">
           {row1Letters.map((letter, index) => {
             return (
-              <button key={index} className="p-2 w-full  bg-gray-200 rounded ">
+              <button
+                key={index}
+                className={`p-2 bg-[#141414] outline outline-1 outline-[#262626] w-full rounded ${
+                  charInfo[letter.charCodeAt(0) - 65] === 3
+                    ? "shadow-inner  shadow-[#88d66c]/50 text-[#80d162]"
+                    : charInfo[letter.charCodeAt(0) - 65] === 2
+                    ? "shadow-inner  shadow-[#F19027]/50 text-[#ddb861]"
+                    : charInfo[letter.charCodeAt(0) - 65] === 1
+                    ? "shadow-inner  shadow-[#FFFFFF]/25 text-[#262626] "
+                    : "shadow-sm shadow-[#454545]"
+                }`}
+              >
                 {letter}
               </button>
             );
@@ -146,25 +162,49 @@ export default function ContestWords() {
         <div className="flex gap-[2px] md:gap-1  w-full">
           {row2Letters.map((letter, index) => {
             return (
-              <button key={index} className="p-2 bg-gray-200 w-full rounded">
+              <button
+                key={index}
+                className={`p-2 bg-[#141414] outline outline-1 outline-[#262626] w-full rounded ${
+                  charInfo[letter.charCodeAt(0) - 65] === 3
+                    ? "shadow-inner  shadow-[#88d66c]/50 text-[#80d162]"
+                    : charInfo[letter.charCodeAt(0) - 65] === 2
+                    ? "shadow-inner  shadow-[#F19027]/50 text-[#ddb861]"
+                    : charInfo[letter.charCodeAt(0) - 65] === 1
+                    ? "shadow-inner  shadow-[#FFFFFF]/25 text-[#262626] "
+                    : "shadow-sm shadow-[#454545]"
+                }`}
+              >
                 {letter}
               </button>
             );
           })}
         </div>
         <div className="flex gap-[2px] md:gap-1 w-full">
-          <button className="p-2  bg-gray-200 rounded">
+          <button className="p-2  bg-[#141414] outline outline-1 outline-[#262626] rounded">
             {" "}
             <MdOutlineBackspace />
           </button>
           {row3Letters.map((letter, index) => {
             return (
-              <button key={index} className="p-2  bg-gray-200 rounded">
+              <button
+                key={index}
+                className={`p-2 bg-[#141414] outline outline-1 outline-[#262626] w-full rounded ${
+                  charInfo[letter.charCodeAt(0) - 65] === 3
+                    ? "shadow-inner  shadow-[#88d66c]/50 text-[#80d162]"
+                    : charInfo[letter.charCodeAt(0) - 65] === 2
+                    ? "shadow-inner  shadow-[#F19027]/50 text-[#ddb861]"
+                    : charInfo[letter.charCodeAt(0) - 65] === 1
+                    ? "shadow-inner  shadow-[#FFFFFF]/25 text-[#262626] "
+                    : "shadow-sm shadow-[#454545]"
+                }`}
+              >
                 {letter}
               </button>
             );
           })}
-          <button className="p-2  bg-gray-200 rounded">Enter</button>
+          <button className="p-2  bg-[#141414] outline outline-1 outline-[#262626] rounded">
+            Enter
+          </button>
         </div>
       </div>
     </div>

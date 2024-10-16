@@ -1,5 +1,5 @@
 .flipCard {
-  background-color: transparent;
+  /* background-color: transparent; */
 
   perspective: 1000px;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -7,7 +7,7 @@
 }
 
 .nonFocusFlipCard {
-  background-color: transparent;
+  /* background-color: transparent; */
 
   perspective: 1000px;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -81,11 +81,11 @@
     rgb(245, 254, 247) 100%
   ); */
   color: rgb(227, 227, 227);
-  box-shadow: inset 0 2px 4px rgba(241, 144, 39, 0.75);
+  box-shadow: inset 0 2px 4px rgba(241, 144, 39, 0.60);
   transition: box-shadow 0.5s ease-in-out;
 }
 .flipCardFoundFront {
-  box-shadow: inset 0 2px 4px rgba(136, 214, 108, 0.75);
+  box-shadow: inset 0 2px 4px #88d66cbf;
   transition: box-shadow 0.5s ease-in-out;
 }
 
@@ -116,14 +116,14 @@
   transform: rotateY(180deg);
   box-shadow: inset 0 2px 4px rgba(136, 214, 108, 1.0),
   inset 0 3px 6px rgba(246, 251, 122, 1.0);
-  color: rgb(155, 255, 119);
+  color: #9bff77;
 }
 
 .NotFound {
   background: linear-gradient(
     120deg,
     rgba(238, 234, 234, 0.265) 10%,
-    rgba(255, 255, 255, 0.263) 60%,
+    #ffffff43 60%,
     #ffffff50 80%,
     #ffffff 100%
   );

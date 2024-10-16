@@ -11,6 +11,7 @@ interface GridProps {
   gridOnFocus: boolean;
   acceptsInputs: boolean;
   currentRow: number;
+  setCharInfo: (charArray: number[]) => void;
 }
 
 function Grid({
@@ -19,6 +20,7 @@ function Grid({
   gridOnFocus,
   acceptsInputs,
   currentRow,
+  setCharInfo,
 }: GridProps) {
   const [focusRow, setFocusRow] = useState(0);
   const [focusIndex, setFocusIndex] = useState(0);
@@ -26,6 +28,12 @@ function Grid({
   const [found, setFound] = useState(false);
   const [guesses, setGuesses] = useState<string[]>([]);
   const [scores, setScores] = useState<number[]>([]);
+  const [curCharInfo, setCurCharInfo] = useState<number[]>(
+    Array.from({ length: 26 }, () => 0)
+  );
+  useEffect(() => {
+    setCharInfo(curCharInfo);
+  }, [curCharInfo]);
 
   useEffect(() => {
     const fetchGuesses = async () => {
@@ -38,7 +46,7 @@ function Grid({
             b: { timestamp: string | number | Date }
           ) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
         );
-        console.log(">>", submitted_guesses[0].score.data);
+        // console.log(">>", submitted_guesses[0].score.data);
         const newGuesses = [];
         const newScores = [];
         for (let i = 0; i < Math.min(6, submitted_guesses.length); i++) {
@@ -47,7 +55,7 @@ function Grid({
           if (submitted_guesses[i].score.correct) {
             setFound(true);
           }
-          // setIsSubmitted(true);
+          setIsSubmitted(true);
         }
         setGuesses(newGuesses);
         setScores(newScores);
@@ -85,6 +93,8 @@ function Grid({
           submittedGuess={guesses[index] || ""}
           submittedScore={Array.isArray(scores[index]) ? scores[index] : []}
           setFound={setFound}
+          setCurCharInfo={setCurCharInfo}
+          curCharInfo={curCharInfo}
         />
       ))}
     </div>

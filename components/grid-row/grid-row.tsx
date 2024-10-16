@@ -19,10 +19,12 @@ interface GridRowProps {
   found: boolean;
   submittedGuess: string;
   submittedScore: number[];
+  curCharInfo: number[];
   setFound: (found: boolean) => void;
   setIsSubmitted: (isSubmitted: boolean) => void;
   setFocusRow: (index: number) => void;
   setFocusIndex: (index: number) => void;
+  setCurCharInfo: (charArray: number[]) => void;
 }
 
 const GridRow: React.FC<GridRowProps> = ({
@@ -45,10 +47,13 @@ const GridRow: React.FC<GridRowProps> = ({
   submittedGuess,
   submittedScore,
   setFound,
+  curCharInfo,
+  setCurCharInfo,
 }) => {
   // const [isSubmitted, setIsSubmitted] = useState(submitted);
-  const [guess_score, setGuessScore] = useState(isSubmitted ? submittedScore : [0, 0, 0, 0, 0]);
-  console.log("guess_score", guess_score, isSubmitted);
+  const [guess_score, setGuessScore] = useState([0, 0, 0, 0, 0]);
+  const [initialLoad, setInitialLoad] = useState(true);
+  // console.log("guess_score", guess_score, isSubmitted);
   const inputRefs = useRef<HTMLSpanElement[]>([]);
   const flippedStates = Array.from({ length: cellCount }).map(() =>
     useState(0)
@@ -60,16 +65,6 @@ const GridRow: React.FC<GridRowProps> = ({
       return { id: index, value: "" };
     })
   );
-
-  useEffect(() => {
-    if (submittedGuess && submittedGuess.length > 0) {
-      const newValues = [...values];
-      Array.from(submittedGuess).forEach((guess, index) => {
-        values[index] = { id: index, value: guess };
-      });
-      setValues(newValues);
-    }
-  }, [submittedGuess]);
 
   const handleChange = (
     index: number,
@@ -181,7 +176,7 @@ const GridRow: React.FC<GridRowProps> = ({
   //       const response = await getGuesses(contestId, wordId);
   //       if (response.status === 200) {
   //         const guesses = response.data;
-          
+
   //         console.log(guesses);
   //       }
   //     } catch (error) {
@@ -196,13 +191,20 @@ const GridRow: React.FC<GridRowProps> = ({
   // initial fetched submission animation
   useEffect(() => {
     if (isSubmitted) {
+      const newValues = [...values];
+
+      Array.from(submittedGuess).forEach((guess, index) => {
+        newValues[index] = { id: index, value: guess.toUpperCase() };
+      });
+      setValues(newValues);
+      setGuessScore(submittedScore);
       for (let i = 0; i < cellCount; i++) {
-        
         unfocusSpan(i);
         setTimeout(() => {
-          if (guess_score[i] == 3) {
+          // console.log(guess_score[i]);
+          if (submittedScore[i] == 3) {
             setIsFlipped[i](3);
-          } else if (guess_score[i] == 2) {
+          } else if (submittedScore[i] == 2) {
             setIsFlipped[i](2);
           } else {
             setIsFlipped[i](1);
@@ -210,7 +212,8 @@ const GridRow: React.FC<GridRowProps> = ({
         }, i * 100);
       }
     }
-  }, [isSubmitted]); 
+    setInitialLoad(false);
+  }, [submittedGuess]);
 
   for (let i = 0; i < cellCount; i++) {
     useEffect(() => {
@@ -226,7 +229,7 @@ const GridRow: React.FC<GridRowProps> = ({
           }
         }, i * 100);
       }
-    }, [focusRow, isSubmitted]);
+    }, [focusRow]);
     useEffect(() => {
       if (
         gridOnFocus &&
@@ -236,8 +239,21 @@ const GridRow: React.FC<GridRowProps> = ({
       ) {
         inputRefs.current[i]?.focus();
       }
-    }, [focusRow, isSubmitted]);
+    }, [focusRow]);
   }
+
+  useEffect(() => {
+    if (guess_score.length > 0) {
+      const newCharInfo = [...curCharInfo];
+      for (let i = 0; i < cellCount; i++) {
+        if (guess_score[i] > curCharInfo[values[i].value.charCodeAt(0) - 65]) {
+          newCharInfo[values[i].value.charCodeAt(0) - 65] = guess_score[i];
+        }
+      }
+      // console.log(newCharInfo);
+      setCurCharInfo(newCharInfo);
+    }
+  }, [guess_score]);
 
   // =================================================== return ===================================================
 
@@ -249,7 +265,7 @@ const GridRow: React.FC<GridRowProps> = ({
             gridOnFocus && focusRow === rowNum && acceptsInputs
               ? style.flipCard
               : style.nonFocusFlipCard
-          } w-[40px] h-[40px] md:w-[60px] md:h-[60px] rounded-sm md:rounded-md shadow-cell overflow-hidden text-2xl md:text-4xl font-black`}
+          } w-[40px] h-[40px] md:w-[60px] md:h-[60px] rounded-sm md:rounded-md shadow-cell overflow-hidden text-2xl bg-[#1A1A1A] md:text-4xl font-black`}
           key={index}
         >
           <div
@@ -257,7 +273,9 @@ const GridRow: React.FC<GridRowProps> = ({
               isFlipped[index] > 0 ? style.flipped : ""
             }`}
           >
-            <div className={ found ? style.flipCardFoundFront : style.flipCardFront}>
+            <div
+              className={found ? style.flipCardFoundFront : style.flipCardFront}
+            >
               <span
                 id={`${index}`}
                 tabIndex={isFlipped[index] > 0 || found ? -1 : 0}

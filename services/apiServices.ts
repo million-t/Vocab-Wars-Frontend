@@ -80,6 +80,7 @@ export const createContest = async (data: any) => {
 };
 
 export const getGuesses = async (contest_id: number, word_id: number) => {
+  return []
   return await api.get(`/contests/${contest_id}/get_word_guesses/`, {
     params: { word_id },
   });

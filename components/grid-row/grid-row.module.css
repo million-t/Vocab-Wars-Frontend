@@ -54,6 +54,7 @@
 }
 
 .flipCardFront,
+.flipCardFoundFront,
 .NotFound,
 .flipCardPositionWrong,
 .flipCardFound {
@@ -72,50 +73,65 @@
 }
 
 .flipCardFront {
-  background: linear-gradient(
+  /* background: linear-gradient(
     120deg,
     white 10%,
     white 40%,
     rgb(245, 254, 247) 70%,
     rgb(245, 254, 247) 100%
-  );
-  color: gray;
+  ); */
+  color: rgb(227, 227, 227);
+  box-shadow: inset 0 2px 4px rgba(241, 144, 39, 0.75);
+  transition: box-shadow 0.5s ease-in-out;
+}
+.flipCardFoundFront {
+  box-shadow: inset 0 2px 4px rgba(136, 214, 108, 0.75);
+  transition: box-shadow 0.5s ease-in-out;
 }
 
 .flipCardPositionWrong {
-  background: linear-gradient(
+  /* background: linear-gradient(
     120deg,
-    #f6fb7a 10%,
+    rgb(246, 251, 122) 10%,
     #f6fb7a 40%,
     #f6fb7a 70%,
     #e1e380 100%
-  );
+  ); */
   color: rgb(87, 87, 87);
   transform: rotateY(180deg);
+  box-shadow: inset 0 2px 4px rgba(241, 144, 39, 1.0),
+  inset 0 3px 6px rgba(246, 251, 122, 1.0);
+  color: #efb630;
 }
 
 .flipCardFound {
   background: linear-gradient(
     120deg,
-    #88d66c 30%,
-    #88d66c 60%,
-    #88d66c 80%,
-    #73bba3 100%
+    rgba(136, 214, 108, 0.475) 30%,
+    rgba(136, 214, 108, 0.302) 60%,
+    rgba(136, 214, 108, 0.331) 80%,
+    rgb(115, 187, 163) 100%
   );
   color: white;
   transform: rotateY(180deg);
+  box-shadow: inset 0 2px 4px rgba(136, 214, 108, 1.0),
+  inset 0 3px 6px rgba(246, 251, 122, 1.0);
+  color: rgb(155, 255, 119);
 }
 
 .NotFound {
   background: linear-gradient(
     120deg,
-    #eeeaea 10%,
-    #ffffff 60%,
-    #ffffff 80%,
+    rgba(238, 234, 234, 0.265) 10%,
+    rgba(255, 255, 255, 0.263) 60%,
+    #ffffff50 80%,
     #ffffff 100%
   );
   color: gray;
   transform: rotateY(180deg);
+  box-shadow: inset 0 2px 4px rgb(186, 186, 186),
+  inset 0 3px 6px rgb(216, 216, 215);
+  color: rgb(182, 182, 182);
 }
 /* -------------------------------- */
 

@@ -3,6 +3,7 @@ import Grid from "@/components/grid/grid";
 import Link from "next/link";
 import { useRef, useState, useEffect } from "react";
 import style from "./page.module.css";
+import { MdOutlineBackspace } from "react-icons/md";
 
 const row1Letters = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"];
 const row2Letters = ["A", "S", "D", "F", "G", "H", "J", "K", "L"];
@@ -14,6 +15,8 @@ export default function ContestWords() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [indicatorWidth, setIndicatorWidth] = useState<number>(0);
   const [activeGrid, setActiveGrid] = useState<number>(0);
+  // const [submitted, setSubmitted] = useState<number[]>(Array.from({ length: 4 }, () => 0));
+  const submitted = [2, 1, 2, 0];
   const handleWordClick = (index: number) => {
     setActiveIndex(index);
     // Todo
@@ -46,7 +49,13 @@ export default function ContestWords() {
                       key={index}
                       className={`${
                         activeIndex === index ? "" : "bg-[#1A1A1A]"
-                      } font-semibold w-full flex justify-center items-center gap-2 rounded-t-sm transition-shadow duration-500 ease-in-out hover:bg-transparent hover:shadow-inner  hover:shadow-[#F19027]/25 `}
+                      } font-semibold w-full flex justify-center items-center gap-2 rounded-t-sm transition-shadow duration-500 ease-in-out hover:bg-transparent hover:shadow-inner  hover:shadow-[#ffffff]/25 ${
+                        submitted[index] === 2
+                          ? "shadow-inner shadow-[#88d66c]/25"
+                          : submitted[index] === 1
+                          ? "shadow-inner  shadow-[#F19027]/25"
+                          : ""
+                      } `}
                       onClick={() => handleWordClick(index)}
                     >
                       <div className="text-gray-300 font-semibold italic">
@@ -84,8 +93,13 @@ export default function ContestWords() {
             </div>
           </div>
         </div>
-        <Link href={`/contests/${1}/ranking`} className="h-full p-[2px] w-full max-w-20 ">
-          <button className={`${style.navItem} ${style.rankButton} px-2 w-full h-10  bg-gradient-to-tr from-transparent   to-[#F19027]  rounded-r italic text-gray-200 font-light`}>
+        <Link
+          href={`/contests/${1}/ranking`}
+          className="h-full p-[2px] w-full max-w-20 "
+        >
+          <button
+            className={`${style.navItem} ${style.rankButton} px-2 w-full h-10  bg-gradient-to-tr from-transparent   to-[#F19027]  rounded-r italic text-gray-200 font-light`}
+          >
             Rank
           </button>
         </Link>
@@ -119,8 +133,8 @@ export default function ContestWords() {
       </div>
 
       {/* Keyboard */}
-      <div className="flex flex-col items-center gap-2 text-[#1A1A1A]">
-        <div className="flex gap-1 md:gap-2">
+      <div className="flex flex-col items-center gap-1 text-[#1A1A1A]">
+        <div className="flex gap-[2px] md:gap-1 w-full">
           {row1Letters.map((letter, index) => {
             return (
               <button key={index} className="p-2 w-full  bg-gray-200 rounded ">
@@ -129,16 +143,20 @@ export default function ContestWords() {
             );
           })}
         </div>
-        <div className="flex gap-1 md:gap-2">
+        <div className="flex gap-[2px] md:gap-1  w-full">
           {row2Letters.map((letter, index) => {
             return (
-              <button key={index} className="p-2 bg-gray-200 rounded">
+              <button key={index} className="p-2 bg-gray-200 w-full rounded">
                 {letter}
               </button>
             );
           })}
         </div>
-        <div className="flex gap-1 md:gap-2">
+        <div className="flex gap-[2px] md:gap-1 w-full">
+          <button className="p-2  bg-gray-200 rounded">
+            {" "}
+            <MdOutlineBackspace />
+          </button>
           {row3Letters.map((letter, index) => {
             return (
               <button key={index} className="p-2  bg-gray-200 rounded">
@@ -146,6 +164,7 @@ export default function ContestWords() {
               </button>
             );
           })}
+          <button className="p-2  bg-gray-200 rounded">Enter</button>
         </div>
       </div>
     </div>

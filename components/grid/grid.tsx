@@ -1,7 +1,8 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import GridRow from "../grid-row/grid-row";
 import { setMaxIdleHTTPParsers } from "http";
+import { getGuesses } from "@/services/apiServices";
 
 const rowCount = 6;
 interface GridProps {
@@ -11,7 +12,7 @@ interface GridProps {
   acceptsInputs: boolean;
   currentRow: number;
 }
-const token = "";
+
 function Grid({
   wordId,
   contestId,
@@ -23,6 +24,43 @@ function Grid({
   const [focusIndex, setFocusIndex] = useState(0);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [found, setFound] = useState(false);
+  const [guesses, setGuesses] = useState<string[]>([]);
+  const [scores, setScores] = useState<number[]>([]);
+
+  useEffect(() => {
+    const fetchGuesses = async () => {
+      try {
+        const data = await getGuesses(contestId, wordId);
+        let submitted_guesses = data.data;
+        submitted_guesses = submitted_guesses.sort(
+          (
+            a: { timestamp: string | number | Date },
+            b: { timestamp: string | number | Date }
+          ) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+        );
+        console.log(">>", submitted_guesses[0].score.data);
+        const newGuesses = [];
+        const newScores = [];
+        for (let i = 0; i < Math.min(6, submitted_guesses.length); i++) {
+          newGuesses.push(submitted_guesses[i].guess_text);
+          newScores.push(submitted_guesses[i].score.data);
+          if (submitted_guesses[i].score.correct) {
+            setFound(true);
+          }
+          // setIsSubmitted(true);
+        }
+        setGuesses(newGuesses);
+        setScores(newScores);
+        // setGuesses(data);
+        // const newGuesses = submitted_guesses.map((guess: { guess_text: any; score: }) => guess.guess_text);
+      } catch (error) {
+        console.error("Error fetching guesses:", error);
+      }
+    };
+
+    fetchGuesses();
+  }, [contestId, wordId]);
+
   return (
     <div className="flex flex-col gap-[2px] md:gap-1  ">
       {[...Array(rowCount)].map((_, index) => (
@@ -44,6 +82,8 @@ function Grid({
           isSubmitted={isSubmitted}
           setIsSubmitted={setIsSubmitted}
           found={found}
+          submittedGuess={guesses[index] || ""}
+          submittedScore={Array.isArray(scores[index]) ? scores[index] : []}
           setFound={setFound}
         />
       ))}

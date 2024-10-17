@@ -18,8 +18,8 @@ export default function ArenaLayout({
     }
   };
   return (
-    <div className="flex flex-col w-full justify-center">
-      <div className="flex hidden gap-4 w-full  justify-end items-center">
+    <div className="flex flex-col w-full  ">
+      <div className="hidden gap-4 w-full  justify-end items-center">
         <div className="">
           {/* <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
             Username

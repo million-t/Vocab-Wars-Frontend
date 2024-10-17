@@ -20,7 +20,7 @@ const NavBar = () => {
             <div className=" mt- h-full w-4 relative ">
               <div
                 id="indicator"
-                className={`absolute left-0  w-2 rounded-l-sm bg-gradient-to-r from-[#97642f]  via-[#F19027] to-[#ffc800] transition-all duration-300`}
+                className={`absolute left-0  w-4 rounded-l-sm bg-gradient-to-r from-[#97642f]  via-[#F19027] to-[#ffc800] transition-all duration-300`}
                 style={{
                   height: `${indicatorHeight}px`,
                   top: `${
@@ -30,7 +30,7 @@ const NavBar = () => {
                   }px`,
                 }}
               >
-                <div className="absolute left-2 bottom-0 h-full w-[4px] bg-gradient-to-r from-[#DA8C38]   to-transparent"></div>
+                <div className="absolute left-4 bottom-0 h-full w-1 bg-gradient-to-r from-[#DA8C38]   to-transparent"></div>
                 <div className="absolute left-2 w-[154px] h-full rounded-r-sm bg-transparent shadow-inner  shadow-[#F19027]/75"></div>
               </div>
             </div>
@@ -39,7 +39,7 @@ const NavBar = () => {
                 return (
                   <li
                     key={index}
-                    className="p-2 bg-[#1A1A1A] transition-all ease-in-out duration-500 hover:bg-transparent hover:shadow-inner rounded-r  hover:shadow-[#ffffff]/25"
+                    className="p-2 bg-[#1A1A1A] transition-all ease-in-out duration-500 hover:bg-transparent hover:shadow-inner rounded-r  hover:shadow-[#ffffff]/25 text-gray-300"
                     onClick={() => handleNavigation(index)}
                   >
                     {item}

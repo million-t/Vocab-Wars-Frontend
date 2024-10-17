@@ -37,7 +37,7 @@ export default function ContestWords() {
   }, [activeIndex]);
 
   return (
-    <div className="mt-2 flex flex-col items-center">
+    <div className="flex flex-col items-center">
       {/* Nav */}
       <div className="flex w-full justify-center items-center outline outline-1 outline-[#262626] p-4">
         <div className="w-full max-w-md">

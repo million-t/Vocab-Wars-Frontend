@@ -283,7 +283,7 @@ const GridRow: React.FC<GridRowProps> = ({
             >
               <span
                 id={`${index}`}
-                tabIndex={isFlipped[index] > 0 || found ? -1 : 0}
+                tabIndex={isFlipped[index] > 0 || found || isSubmitted ? -1 : 0}
                 key={index}
                 className={`${
                   gridOnFocus && focusRow === rowNum && acceptsInputs

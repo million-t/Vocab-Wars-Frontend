@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import logo from "@/public/images/logo.png";
 import localFont from "next/font/local";
+import Image from "next/image";
 import "./globals.css";
 
 const geistSans = localFont({
@@ -29,7 +31,18 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <div className="flex  flex-col md:flex-row">
-          <div className="flex flex-col  h-full bg-slate-200"></div>
+          <div className="hidden  md:flex flex-col  m-1 p-2 w-44 h-full ">
+            <Image src={logo} alt="logo"></Image>
+            <div className="relative w-full text-gray-200 h-full">
+              {/* slider */}
+              <div></div>
+              {/* Option */}
+              <ul>
+                <li>Daily</li>
+                <li>Contests</li>
+              </ul>
+            </div>
+          </div>
 
           {children}
         </div>

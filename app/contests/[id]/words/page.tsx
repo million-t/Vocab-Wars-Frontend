@@ -3,7 +3,7 @@ import Grid from "@/components/grid/grid";
 import Link from "next/link";
 import { useRef, useState, useEffect } from "react";
 import style from "./page.module.css";
-import { MdOutlineBackspace } from "react-icons/md";
+import { FaBackspace } from "react-icons/fa";
 
 const row1Letters = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"];
 const row2Letters = ["A", "S", "D", "F", "G", "H", "J", "K", "L"];
@@ -98,7 +98,7 @@ export default function ContestWords() {
         </div>
         <Link
           href={`/contests/${1}/ranking`}
-          className="h-full p-1 md:w-full max-w-20 "
+          className="h-full p-1 md:w-full max-w-24 "
         >
           <button
             className={`${style.navItem} ${style.rankButton} px-2 w-full h-10  bg-gradient-to-tr from-transparent   to-[#F19027]  rounded-r italic text-gray-200 font-light outline outline-1 outline-[#262626]`}
@@ -180,9 +180,8 @@ export default function ContestWords() {
           })}
         </div>
         <div className="flex gap-[2px] md:gap-1 w-full">
-          <button className="p-2  bg-[#141414] outline outline-1 outline-[#262626] rounded">
-            {" "}
-            <MdOutlineBackspace />
+          <button className=" px-4 bg-[#141414] outline outline-1 outline-[#262626] rounded ">
+            <FaBackspace />
           </button>
           {row3Letters.map((letter, index) => {
             return (

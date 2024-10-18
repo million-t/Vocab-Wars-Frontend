@@ -49,7 +49,6 @@ function Grid({
             b: { timestamp: string | number | Date }
           ) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
         );
-        // console.log(">>", submitted_guesses[0].score.data);
         const newGuesses = [];
         const newScores = [];
         for (let i = 0; i < Math.min(6, submitted_guesses?.length); i++) {

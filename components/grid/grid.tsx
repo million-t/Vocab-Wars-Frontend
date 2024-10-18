@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import GridRow from "../grid-row/grid-row";
 import { setMaxIdleHTTPParsers } from "http";
 import { getGuesses } from "@/services/apiServices";
+import { preconnect } from "react-dom";
 
 const rowCount = 6;
 interface GridProps {
@@ -12,6 +13,7 @@ interface GridProps {
   acceptsInputs: boolean;
   currentRow: number;
   setCharInfo: (charArray: number[]) => void;
+  setStatus: (status: number | any) => void;
 }
 
 function Grid({
@@ -21,6 +23,7 @@ function Grid({
   acceptsInputs,
   currentRow,
   setCharInfo,
+  setStatus,
 }: GridProps) {
   const [focusRow, setFocusRow] = useState(0);
   const [focusIndex, setFocusIndex] = useState(0);
@@ -40,7 +43,7 @@ function Grid({
       try {
         const data = await getGuesses(contestId, wordId);
         let submitted_guesses = data.data;
-        submitted_guesses = submitted_guesses.sort(
+        submitted_guesses?.sort(
           (
             a: { timestamp: string | number | Date },
             b: { timestamp: string | number | Date }
@@ -49,12 +52,14 @@ function Grid({
         // console.log(">>", submitted_guesses[0].score.data);
         const newGuesses = [];
         const newScores = [];
-        for (let i = 0; i < Math.min(6, submitted_guesses.length); i++) {
+        for (let i = 0; i < Math.min(6, submitted_guesses?.length); i++) {
           newGuesses.push(submitted_guesses[i].guess_text);
           newScores.push(submitted_guesses[i].score.data);
           if (submitted_guesses[i].score.correct) {
             setFound(true);
+            setStatus(2);
           }
+          setStatus((prev: number) => Math.max(prev, 1));
           setIsSubmitted(true);
         }
         setGuesses(newGuesses);
@@ -95,6 +100,7 @@ function Grid({
           setFound={setFound}
           setCurCharInfo={setCurCharInfo}
           curCharInfo={curCharInfo}
+          setStatus={setStatus}
         />
       ))}
     </div>

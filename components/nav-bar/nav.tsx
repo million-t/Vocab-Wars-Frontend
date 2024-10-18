@@ -19,7 +19,7 @@ const NavBar = () => {
       <div className="w-full ">
         <div className=" w-full p-[1px] bg-gradient-to-bl from-[#DA8C38] via-transparent to-[#F19027] rounded">
           <div
-            className={`  rounded bg-[#141414] flex justify-start  gap-3 p-2 w-full max-w-md mr-1 overflow-hidden`}
+            className={`  rounded bg-[#141414] flex justify-start  gap-1 p-2 w-full max-w-md mr-1 overflow-hidden`}
           >
             <div className=" mt- h-full w-4 relative ">
               <Link href={paths[activeIndex]}>
@@ -38,14 +38,14 @@ const NavBar = () => {
                   <div className="absolute left-4 bottom-0 h-full w-1 bg-gradient-to-r from-[#DA8C38]   to-transparent"></div>
                   <div className="absolute left-2 w-[154px] h-full rounded-r-sm bg-transparent shadow-inner  shadow-[#F19027]/75"></div>
                 </div>
-              </Link> 
+              </Link>
             </div>
             <ul className="flex flex-col gap-1">
               {navItems.map((item, index) => {
                 return (
                   <li
                     key={index}
-                    className="p-2 bg-[#1A1A1A] transition-all ease-in-out duration-500 hover:bg-transparent hover:shadow-inner rounded-r  hover:shadow-[#ffffff]/25 text-gray-300"
+                    className="p-2 px-3 bg-[#1A1A1A] transition-all ease-in-out duration-500 hover:bg-transparent hover:shadow-inner rounded-r  hover:shadow-[#ffffff]/25 text-gray-300"
                     onClick={() => handleNavigation(index)}
                   >
                     <Link href={paths[index]}>{item}</Link>

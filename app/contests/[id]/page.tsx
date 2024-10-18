@@ -1,13 +1,9 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import WarImage from "../../../public/images/warImage.jpg";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
-const fullText = `Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam,
-  nulla similique consectetur quos aut optio repellat enim officia,
-  laborum error itaque numquam ipsa distinctio corrupti, quasi
-  laudantium natus quaerat dignissimos.`;
 
 const Contest = () => {
   // get contest id from path
@@ -15,15 +11,20 @@ const Contest = () => {
   const routerArr = router.split("/");
   const contestId = routerArr[routerArr.length - 1];
   const [displayedText, setDisplayedText] = useState<string>("");
-  useEffect(() => {
-    let index = 0;
-    // console.log(">", fullText.length, fullText[fullText.length - 1]);
+  const fullText = `In a world where pixels reign supreme, the ultimate showdown between heroes and villains unfolds. 
+  As the sun sets over the digital horizon, warriors from all corners of the virtual realm gather for the grand tournament. 
+  With swords clashing and spells flying, the fate of the cyber kingdom hangs in the balance. 
+  Will you rise to the challenge and claim your place as the ultimate champion, or will you fall into the abyss of defeat? 
+  The battle begins now. Ready, set, fight!`;
 
+  const indexRef = useRef(0);
+
+  useEffect(() => {
     const interval = setInterval(() => {
-      if (index < fullText.length) {
-        setDisplayedText((prev) => prev + (fullText[index] || "" ));
-        // console.log(index);
-        index++;
+      if (indexRef.current < fullText.length) {
+        setDisplayedText(fullText.slice(0, indexRef.current));
+
+        indexRef.current++;
       } else {
         clearInterval(interval);
       }
@@ -39,9 +40,9 @@ const Contest = () => {
           <div className="absolute w-full h-full z-10 bg-gradient-to-r from-[#141414] to-transparent"></div>
           <Image
             src={WarImage}
+            priority={false}
             className="absolute w-full h-full object-cover"
             alt="war image"
-            
           />
           <p className="absolute z-20 m-6 text-xs md:text-base text-transparent max-w-xl bg-clip-text bg-gradient-to-br from-[#97642f] via-[#F19027] to-[#ffc800]">
             {displayedText}

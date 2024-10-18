@@ -25,6 +25,7 @@ interface GridRowProps {
   setFocusRow: (index: number) => void;
   setFocusIndex: (index: number) => void;
   setCurCharInfo: (charArray: number[]) => void;
+  setStatus: (status: number | any) => void;
 }
 
 const GridRow: React.FC<GridRowProps> = ({
@@ -49,11 +50,10 @@ const GridRow: React.FC<GridRowProps> = ({
   setFound,
   curCharInfo,
   setCurCharInfo,
+  setStatus,
 }) => {
-  // const [isSubmitted, setIsSubmitted] = useState(submitted);
   const [guess_score, setGuessScore] = useState([0, 0, 0, 0, 0]);
   const [initialLoad, setInitialLoad] = useState(true);
-  // console.log("guess_score", guess_score, isSubmitted);
   const inputRefs = useRef<HTMLSpanElement[]>([]);
   const flippedStates = Array.from({ length: cellCount }).map(() =>
     useState(0)
@@ -132,13 +132,6 @@ const GridRow: React.FC<GridRowProps> = ({
   const unfocusSpan = (index: number) => {
     inputRefs.current[index]?.blur();
   };
-  // const handleSubmit = () => {
-  //   const result = values.map((value) => value.value.trim()).join("");
-  //   console.log(result);
-  //   if (result.length < cellCount) {
-  //     return;
-  //   }
-  // };
 
   const handleSubmit = async () => {
     const guess = values.map((value) => value.value.trim()).join("");
@@ -151,41 +144,23 @@ const GridRow: React.FC<GridRowProps> = ({
       const response = await submitGuess(contestId, guess, "A", wordId);
       if (response.status === 200) {
         setIsSubmitted(true);
-        // console.log(response.data.data);
         setGuessScore(response.data.data);
 
         guess_text = values.map((value) => value.value.trim());
         setFocusRow(rowNum + 1);
         setFocusIndex(0);
-        // console.log("focusRow", focusRow, rowNum);
-        // console.log("focusIndex", focusIndex);
         if (response.data.correct) {
           setFound(true);
+          setStatus(2);
           setFocusIndex(-1);
+        } else {
+          setStatus((prev: number) => Math.max(prev, 1));
         }
       }
     } catch (error) {
       console.error("Error submitting guess", error);
     }
   };
-
-  // =================================================== useEffect ===================================================
-  // useEffect(() => {
-  //   const fetchGuesses = async () => {
-  //     try {
-  //       const response = await getGuesses(contestId, wordId);
-  //       if (response.status === 200) {
-  //         const guesses = response.data;
-
-  //         console.log(guesses);
-  //       }
-  //     } catch (error) {
-  //       console.error("Error fetching guesses", error);
-  //     }
-  //   };
-
-  //   fetchGuesses();
-  // }, []);
 
   // =================================================== submission animation =========================================
   // initial fetched submission animation

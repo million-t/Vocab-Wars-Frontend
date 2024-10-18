@@ -16,7 +16,13 @@ export default function ContestWords() {
   const [indicatorWidth, setIndicatorWidth] = useState<number>(0);
   const [activeGrid, setActiveGrid] = useState<number>(0);
   // const [submitted, setSubmitted] = useState<number[]>(Array.from({ length: 4 }, () => 0));
-  const submitted = [2, 1, 2, 0];
+  // const submitted = [2, 1, 2, 0];
+  const statusStates = Array.from({ length: words.length }).map(() =>
+    useState(0)
+  );
+  const status = statusStates.map(([state]) => state);
+  const setStatus = statusStates.map(([, setState]) => setState);
+
   const handleWordClick = (index: number) => {
     setActiveIndex(index);
     // Todo
@@ -53,9 +59,9 @@ export default function ContestWords() {
                       className={`${
                         activeIndex === index ? "" : "bg-[#1A1A1A]"
                       } font-semibold w-full flex justify-center items-center gap-2 rounded-t-sm transition-shadow duration-500 ease-in-out hover:bg-transparent hover:shadow-inner  hover:shadow-[#ffffff]/25 ${
-                        submitted[index] === 2
+                        status[index] === 2
                           ? "shadow-inner shadow-[#88d66c]/25"
-                          : submitted[index] === 1
+                          : status[index] === 1
                           ? "shadow-inner  shadow-[#F19027]/25"
                           : ""
                       } `}
@@ -129,6 +135,7 @@ export default function ContestWords() {
                   gridOnFocus={index === activeGrid}
                   acceptsInputs={true}
                   currentRow={0}
+                  setStatus={setStatus[index]}
                   setCharInfo={setCharInfo}
                 />
               </div>

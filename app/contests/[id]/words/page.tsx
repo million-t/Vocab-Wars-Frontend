@@ -8,7 +8,7 @@ import { FaBackspace } from "react-icons/fa";
 const row1Letters = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"];
 const row2Letters = ["A", "S", "D", "F", "G", "H", "J", "K", "L"];
 const row3Letters = ["Z", "X", "C", "V", "B", "N", "M"];
-const words = ["A", "B", "C", "D"];
+const words = ["A", "B", "C", "D", "E"];
 
 export default function ContestWords() {
   const [activeIndex, setActiveIndex] = useState<number>(0);
@@ -111,7 +111,7 @@ export default function ContestWords() {
       {/* Grid */}
       <div className="w-full outline outline-1 outline-[#262626] flex justify-center">
         <div className="w-full max-w-[260px] md:max-w-[360px] flex overflow-hidden outline outline-1 outline-[#262626] bg-[#141414]">
-          {Array.from({ length: 4 }).map((_, index) => {
+          {Array.from({ length: words.length }).map((_, index) => {
             return (
               <div
                 key={index}

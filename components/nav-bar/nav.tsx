@@ -1,7 +1,11 @@
 "use client";
 import React, { useState } from "react";
+import Link from "next/link";
+
 const indicatorHeight = 40;
 const navItems = ["Home", "Daily", "Contests"];
+const paths = ["/", "/daily", "/contests/1"];
+
 const NavBar = () => {
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -18,21 +22,23 @@ const NavBar = () => {
             className={`  rounded bg-[#141414] flex justify-start  gap-3 p-2 w-full max-w-md mr-1 overflow-hidden`}
           >
             <div className=" mt- h-full w-4 relative ">
-              <div
-                id="indicator"
-                className={`absolute left-0  w-4 rounded-l-sm bg-gradient-to-r from-[#97642f]  via-[#F19027] to-[#ffc800] transition-all duration-300`}
-                style={{
-                  height: `${indicatorHeight}px`,
-                  top: `${
-                    activeIndex !== null
-                      ? activeIndex * indicatorHeight + activeIndex * 4
-                      : 0
-                  }px`,
-                }}
-              >
-                <div className="absolute left-4 bottom-0 h-full w-1 bg-gradient-to-r from-[#DA8C38]   to-transparent"></div>
-                <div className="absolute left-2 w-[154px] h-full rounded-r-sm bg-transparent shadow-inner  shadow-[#F19027]/75"></div>
-              </div>
+              <Link href={paths[activeIndex]}>
+                <div
+                  id="indicator"
+                  className={`absolute left-0  w-4 rounded-l-sm bg-gradient-to-r from-[#97642f]  via-[#F19027] to-[#ffc800] transition-all duration-300`}
+                  style={{
+                    height: `${indicatorHeight}px`,
+                    top: `${
+                      activeIndex !== null
+                        ? activeIndex * indicatorHeight + activeIndex * 4
+                        : 0
+                    }px`,
+                  }}
+                >
+                  <div className="absolute left-4 bottom-0 h-full w-1 bg-gradient-to-r from-[#DA8C38]   to-transparent"></div>
+                  <div className="absolute left-2 w-[154px] h-full rounded-r-sm bg-transparent shadow-inner  shadow-[#F19027]/75"></div>
+                </div>
+              </Link> 
             </div>
             <ul className="flex flex-col gap-1">
               {navItems.map((item, index) => {
@@ -42,7 +48,7 @@ const NavBar = () => {
                     className="p-2 bg-[#1A1A1A] transition-all ease-in-out duration-500 hover:bg-transparent hover:shadow-inner rounded-r  hover:shadow-[#ffffff]/25 text-gray-300"
                     onClick={() => handleNavigation(index)}
                   >
-                    {item}
+                    <Link href={paths[index]}>{item}</Link>
                   </li>
                 );
               })}

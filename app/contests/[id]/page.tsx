@@ -17,12 +17,12 @@ const Contest = () => {
   const [displayedText, setDisplayedText] = useState<string>("");
   useEffect(() => {
     let index = 0;
-    console.log(">", fullText.length, fullText[fullText.length - 1]);
+    // console.log(">", fullText.length, fullText[fullText.length - 1]);
 
     const interval = setInterval(() => {
       if (index < fullText.length) {
-        setDisplayedText((prev) => prev + fullText[index]);
-        console.log(index);
+        setDisplayedText((prev) => prev + (fullText[index] || "" ));
+        // console.log(index);
         index++;
       } else {
         clearInterval(interval);
@@ -40,7 +40,8 @@ const Contest = () => {
           <Image
             src={WarImage}
             className="absolute w-full h-full object-cover"
-            alt="warImage"
+            alt="war image"
+            
           />
           <p className="absolute z-20 m-6 text-xs md:text-base text-transparent max-w-xl bg-clip-text bg-gradient-to-br from-[#97642f] via-[#F19027] to-[#ffc800]">
             {displayedText}

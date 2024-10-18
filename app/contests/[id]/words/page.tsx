@@ -47,7 +47,7 @@ export default function ContestWords() {
       {/* Nav */}
       <div className="flex w-full justify-center items-center outline outline-1 outline-[#262626] p-4">
         <div className="w-full max-w-md">
-          <div className=" w-full p-[1px] bg-gradient-to-bl from-[#DA8C38] via-transparent to-[#F19027] rounded">
+          <div className=" w-full p-[1px] bg-gradient-to-bl from-[#DA8C38] via-transparent to-[#F19027] rounded ">
             <div
               className={` ${style.navWrapper}  rounded bg-[#141414] flex flex-col gap-3 p-[2px] w-full max-w-md mr-1 overflow-hidden`}
             >
@@ -60,9 +60,9 @@ export default function ContestWords() {
                         activeIndex === index ? "" : "bg-[#1A1A1A]"
                       } font-semibold w-full flex justify-center items-center gap-2 rounded-t-sm transition-shadow duration-500 ease-in-out hover:bg-transparent hover:shadow-inner  hover:shadow-[#ffffff]/25 ${
                         status[index] === 2
-                          ? "shadow-inner shadow-[#88d66c]/25"
+                          ? "shadow-inner shadow-[#88d66c]/50"
                           : status[index] === 1
-                          ? "shadow-inner  shadow-[#F19027]/25"
+                          ? "shadow-inner  shadow-[#F19027]/50"
                           : ""
                       } `}
                       onClick={() => handleWordClick(index)}
@@ -107,7 +107,7 @@ export default function ContestWords() {
           className="h-full p-1 md:w-full max-w-24 "
         >
           <button
-            className={`${style.navItem} ${style.rankButton} px-2 w-full h-10  bg-gradient-to-tr from-transparent   to-[#F19027]  rounded-r italic text-gray-200 font-light outline outline-1 outline-[#262626]`}
+            className={`${style.navItem} ${style.rankButton} px-2 w-full h-10  bg-gradient-to-tr from-transparent text-xs md:text-sm  to-[#F19027]  rounded-r italic text-gray-200 font-light outline outline-1 outline-[#262626]`}
           >
             Rank
           </button>
@@ -145,12 +145,13 @@ export default function ContestWords() {
       </div>
 
       {/* Keyboard */}
-      <div className="flex flex-col items-center gap-1 py-4">
-        <div className="flex gap-[2px] md:gap-1 w-full">
+      <div className="flex flex-col items-center gap-1 py-4 text-[10px] md:text-lg ">
+        <div className="flex gap-[2px] md:gap-1 w-full ">
           {row1Letters.map((letter, index) => {
             return (
               <button
                 key={index}
+                // onClick={(letter) => {}}
                 className={`transition-all duration-300 p-2 bg-[#141414] outline outline-1 outline-[#262626] w-full rounded ${
                   charInfo[letter.charCodeAt(0) - 65] === 3
                     ? "shadow-inner  shadow-[#88d66c]/50 text-[#80d162]"

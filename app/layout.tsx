@@ -36,7 +36,6 @@ const ethnocentric = localFont({
 export const metadata: Metadata = {
   title: "Vocab Wars",
   description: "A wordle contest platform.",
-
 };
 
 const indicatorHeight = 50;
@@ -59,19 +58,14 @@ export default function RootLayout({
             <div className="hidden md:flex flex-col max-w-60  h-screen">
               <div className="flex flex-col  p-2  h-[87.5px] outline outline-1 outline-[#262626] ">
                 <div className="relative w-full h-full ">
-                  <Image
-                    src={logo}
-                    alt="logo"
-                    fill
-                    objectFit="contain"
-                    
-                  />
+                  <Image src={logo} alt="logo" fill objectFit="contain" />
                 </div>
               </div>
               <NavBar />
             </div>
-
-            {children}
+            <div className="w-full overflow-x-hidden overflow-y-scroll">
+              {children}
+            </div>
           </div>
         </div>
       </body>

@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 
 const Contest = () => {
-  // get contest id from path
+  
   const router = usePathname();
   const routerArr = router.split("/");
   const contestId = routerArr[routerArr.length - 1];

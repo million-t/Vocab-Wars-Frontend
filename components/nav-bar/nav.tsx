@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -11,6 +11,15 @@ const NavBar = () => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const path = usePathname();
+
+  useEffect(() => {
+    if (path.charAt(1) === "c") {
+      setActiveIndex(2);
+    } else if (path.charAt(1) === "d") {
+      setActiveIndex(1);
+    }
+  }, [path]);
+
   const handleNavigation = (index: number) => {
     if (activeIndex != index) {
       setActiveIndex(index);
@@ -45,9 +54,8 @@ const NavBar = () => {
             <ul className="flex flex-col gap-1">
               {navItems.map((item, index) => {
                 return (
-                  <Link href={paths[index]}>
+                  <Link key={index} href={paths[index]}>
                     <li
-                      key={index}
                       className="p-2 px-3 bg-[#1A1A1A] transition-all ease-in-out duration-500 hover:bg-transparent hover:shadow-inner rounded-r  hover:shadow-[#ffffff]/25 text-gray-300"
                       onClick={() => handleNavigation(index)}
                     >

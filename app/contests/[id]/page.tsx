@@ -6,7 +6,6 @@ import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 
 const Contest = () => {
-  
   const router = usePathname();
   const routerArr = router.split("/");
   const contestId = routerArr[routerArr.length - 1];
@@ -34,7 +33,7 @@ const Contest = () => {
   }, [fullText]);
 
   return (
-    <div className="w-full flex flex-col items-center justify-center p-2 md:p-8 b">
+    <div className="w-full flex flex-col items-center justify-center p-2 md:p-8 ">
       <div className="w-full max-w-5xl flex flex-col rounded-xl justify-center items-center shadow-lg shadow-[#0c0c0c]">
         <div className="relative w-full max-w-5xl min-h-96  rounded-t-xl overflow-hidden ">
           <div className="absolute w-full h-full z-10 bg-gradient-to-r from-[#141414] to-transparent"></div>

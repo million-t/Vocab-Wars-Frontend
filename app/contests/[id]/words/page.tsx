@@ -145,14 +145,14 @@ export default function ContestWords() {
       </div>
 
       {/* Keyboard */}
-      <div className="flex flex-col items-center gap-1 py-4 text-[10px] md:text-lg ">
-        <div className="flex gap-[2px] md:gap-1 w-full ">
+      <div className="flex flex-col items-center gap-1 py-4 text-[10px] md:text-lg w-full h-auto  max-w-md">
+        <div className="flex gap-1 w-full h-auto">
           {row1Letters.map((letter, index) => {
             return (
               <button
                 key={index}
                 // onClick={(letter) => {}}
-                className={`transition-all duration-300 p-2 bg-[#141414] outline outline-1 outline-[#262626] w-full rounded ${
+                className={`transition-all duration-300 p-2 bg-[#141414] outline outline-1 outline-[#262626] w-full h-auto aspect-[4/5] aspe rounded ${
                   charInfo[letter.charCodeAt(0) - 65] === 3
                     ? "shadow-inner  shadow-[#88d66c]/50 text-[#80d162]"
                     : charInfo[letter.charCodeAt(0) - 65] === 2
@@ -167,12 +167,12 @@ export default function ContestWords() {
             );
           })}
         </div>
-        <div className="flex gap-[2px] md:gap-1  w-full">
+        <div className="flex gap-1  w-full">
           {row2Letters.map((letter, index) => {
             return (
               <button
                 key={index}
-                className={`transition-all duration-300 p-2 bg-[#141414] outline outline-1 outline-[#262626] w-full rounded ${
+                className={`transition-all duration-300 p-2 bg-[#141414] outline outline-1 outline-[#262626]  w-full aspect-[4/5] rounded ${
                   charInfo[letter.charCodeAt(0) - 65] === 3
                     ? "shadow-inner  shadow-[#88d66c]/50 text-[#80d162]"
                     : charInfo[letter.charCodeAt(0) - 65] === 2
@@ -187,7 +187,7 @@ export default function ContestWords() {
             );
           })}
         </div>
-        <div className="flex gap-[2px] md:gap-1 w-full">
+        <div className="flex gap-1 w-full">
           <button className=" px-4 bg-[#141414] outline outline-1 outline-[#262626] rounded ">
             <FaBackspace />
           </button>
@@ -195,7 +195,7 @@ export default function ContestWords() {
             return (
               <button
                 key={index}
-                className={`transition-all duration-300 p-2 bg-[#141414] outline outline-1 outline-[#262626] w-full rounded ${
+                className={`transition-all duration-300 p-2 bg-[#141414] outline outline-1 outline-[#262626] w-full aspect-[4/5] rounded ${
                   charInfo[letter.charCodeAt(0) - 65] === 3
                     ? "shadow-inner  shadow-[#88d66c]/50 text-[#80d162]"
                     : charInfo[letter.charCodeAt(0) - 65] === 2

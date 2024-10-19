@@ -53,7 +53,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable}  ${ethnocentric.variable} antialiased`}
       >
-        <div className="flex w-screen h-full ">
+        <div className="flex w-screen h-screen">
           <div className="flex  w-full ">
             <div className="hidden md:flex flex-col max-w-60  h-screen">
               <div className="flex flex-col  p-2  h-[87.5px] outline outline-1 outline-[#262626] ">

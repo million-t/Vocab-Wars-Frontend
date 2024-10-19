@@ -9,7 +9,6 @@ const paths = ["/", "/daily", "/contests"];
 
 const NavBar = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-
   const path = usePathname();
 
   useEffect(() => {

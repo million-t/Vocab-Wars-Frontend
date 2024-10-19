@@ -98,6 +98,8 @@ const GridRow: React.FC<GridRowProps> = ({
     index: number,
     event: React.KeyboardEvent<HTMLSpanElement>
   ): void => {
+    console.log(event.key);
+
     if (event.key === "ArrowRight" && index < inputRefs.current.length - 1) {
       inputRefs.current[index + 1]?.focus();
     } else if (event.key === "ArrowLeft" && index > 0) {
@@ -268,6 +270,7 @@ const GridRow: React.FC<GridRowProps> = ({
                 contentEditable={
                   gridOnFocus && focusRow === rowNum && acceptsInputs && !found
                 }
+                suppressContentEditableWarning
                 onInput={(event) => handleChange(index, event as any)}
                 onKeyDown={(event) => handleKeyDown(index, event)}
                 ref={(el) => {

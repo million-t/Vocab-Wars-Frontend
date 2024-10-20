@@ -2,6 +2,9 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { RiAddLine } from "react-icons/ri";
+import { FaUserCircle } from "react-icons/fa";
+import { IoIosCreate } from "react-icons/io";
 
 const indicatorHeight = 40;
 const navItems = ["Home", "Daily", "Contests"];
@@ -25,9 +28,9 @@ const NavBar = () => {
     }
   };
   return (
-    <div className="flex w-full h-full outline outline-1 outline-[#262626] p-4">
-      <div className="w-full ">
-        <div className=" w-full p-[1px] bg-gradient-to-bl from-[#DA8C38] via-transparent to-[#F19027] rounded">
+    <div className="flex w-full h-full overflow-hidden outline outline-1 outline-[#262626] p-4">
+      <div className="w-full flex flex-col">
+        <div className=" w-fit p-[1px] bg-gradient-to-bl from-[#DA8C38] via-transparent to-[#F19027] rounded">
           <div
             className={`  rounded bg-[#141414] flex justify-start  gap-1 p-2 w-full max-w-md mr-1 overflow-hidden`}
           >
@@ -64,6 +67,25 @@ const NavBar = () => {
                 );
               })}
             </ul>
+          </div>
+        </div>
+        <div className="w-full  h-full flex flex-col justify-end gap-2 text-[#8c8c8c]">
+          <Link
+            href="/contests/create"
+            className="py-2 text-sm text-left items-center outline outline-1 outline-[#262626] rounded flex gap-2"
+          >
+            <div className="ml-2 w-10 h-10">
+              <IoIosCreate className="text-xl  w-full h-full" />
+            </div>
+            <p className="">Create Contest</p>
+          </Link>
+          <div className="w-full h-12 outline outline-1 outline-[#262626] flex items-center justify-start rounded">
+            <div className=" w-8 h-8 ml-2 rounded-full flex justify-center items-center">
+              <FaUserCircle className="w-full h-full" />
+            </div>
+            <Link href="/login" className="px-2">
+              <p className="text-sm">Login</p>
+            </Link>
           </div>
         </div>
       </div>

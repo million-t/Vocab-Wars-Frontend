@@ -20,7 +20,7 @@ const Contest = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (indexRef.current < fullText.length) {
+      if (indexRef.current <= fullText.length) {
         setDisplayedText(fullText.slice(0, indexRef.current));
 
         indexRef.current++;

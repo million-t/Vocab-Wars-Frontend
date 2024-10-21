@@ -1,15 +1,16 @@
-# Vocab Wars
+# 🎉 Vocab Wars 🎉
+![Vocab Wars Logo](public/images/logo.png) 
 Welcome to Vocab Wars, the Wordle Contest Platform! This platform allows users to create and participate in Wordle contests. It is built using [Next.js](https://nextjs.org) and is designed to be responsive and user-friendly. 
 
-## Inspirations
+## 🌟 Inspirations 🌟
 The idea for Vocab Wars is inspired by both the popular [Wordle](https://www.nytimes.com/games/wordle/index.html) game and the competitive programming platform [Codeforces](https://codeforces.com). It combines the fun of word puzzles with the competitive spirit of coding contests.
 
-## Features
+## 🚀 Features 🚀
 - **Create Contests**: Users can create their own Wordle contests with custom words and settings.
 - **Join Contests**: Users can join public contests or use invitation links to join private contests.
 - **Leaderboard**: Track your progress and see how you rank against other players.
 
-## Getting Started
+## 🛠️ Getting Started 🛠️
 
 First, clone the repository:
 

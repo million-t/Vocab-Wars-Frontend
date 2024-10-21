@@ -40,7 +40,7 @@ const Contest = () => {
           <Image
             src={WarImage}
             priority={false}
-            className="absolute w-full h-full object-cover"
+            className="absolute w-full h-full object-cover user"
             alt="war image"
           />
           <p className="absolute z-20 m-6 text-xs md:text-base text-transparent max-w-xl bg-clip-text bg-gradient-to-br from-[#97642f] via-[#F19027] to-[#ffc800]">

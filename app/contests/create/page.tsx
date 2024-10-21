@@ -31,12 +31,12 @@ const CreateContest = () => {
             <input
               type="email"
               className="peer m-0 block h-[58px] italic  w-full rounded border border-solid border-[#262626] bg-transparent bg-clip-padding px-3 py-4 text-base font-normal leading-tight  transition duration-200 ease-linear placeholder:text-transparent focus:border-[#F19027] focus:pb-[0.625rem] focus:pt-[1.625rem]  focus:outline-none peer-focus:text-primary  text-[#F19027] dark:autofill:shadow-autofill  [&:not(:placeholder-shown)]:pb-[0.625rem] [&:not(:placeholder-shown)]:pt-[1.625rem]"
-              id="floatingInput"
-              placeholder="name@example.com"
+              // id="floatingInput"
+              // placeholder="name@example.com"
             />
             <label className=" pointer-events-none absolute italic left-0 top-0 origin-[0_0] border border-solid text-[#8c8c8c] border-transparent px-3 py-4  transition-[opacity,_transform] duration-200 ease-linear peer-focus:-translate-y-2 peer-focus:translate-x-[0.15rem] peer-focus:scale-[0.75] peer-focus:text-[#8c8c8c] peer-[:not(:placeholder-shown)]:-translate-y-2 peer-[:not(:placeholder-shown)]:translate-x-[0.15rem]  peer-[:not(:placeholder-shown)]:scale-[0.75] motion-reduce:transition-none   ">
               Contest Title
-            </label>
+            </label>  
           </div>
           {/* Description */}
           <div className="relative  rounded">

@@ -1,4 +1,4 @@
-# 🎉 Vocab Wars <link rel="icon" href="favicon.ico" type="image/x-icon">
+# 🎉 Vocab Wars <img width=20 height=20 src="public/images/logo-icon.png" alt="Project Logo" />
 
 ![Vocab Wars Logo](public/images/logo.png)
 

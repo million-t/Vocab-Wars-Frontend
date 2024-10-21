@@ -1,6 +1,8 @@
-# 🎉 Vocab Wars <img width=20 height=20 src="public/images/logo-icon.png" alt="Project Logo" />
+# <img width=20 height=20 src="public/images/logo-icon.png" alt="Project Logo" /> Vocab Wars <img width=20 height=20 src="public/images/logo-icon.png" alt="Project Logo" />
 
-![Vocab Wars Logo](public/images/logo.png)
+<div style="text-align: center;">
+  <img src="public/images/logo.png" alt="Vocab Wars Logo" style="display: block; margin: 0 auto; width: 100px; height: auto;" />
+</div>
 
 Welcome to Vocab Wars, the Wordle Contest Platform! This platform allows users to create and participate in Wordle contests. It is built using [Next.js](https://nextjs.org) and is designed to be responsive and user-friendly.
 

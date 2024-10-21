@@ -1,4 +1,4 @@
-# 🎉 Vocab Wars <img width=20 height=20 alt="logo" src="public/images/logo.png"/>
+# 🎉 Vocab Wars <img width=20 height=20 alt="logo" src="public/images/logo2.png"/>
 
 ![Vocab Wars Logo](public/images/logo.png)
 

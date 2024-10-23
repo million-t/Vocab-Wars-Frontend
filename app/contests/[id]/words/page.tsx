@@ -15,8 +15,6 @@ export default function ContestWords() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [indicatorWidth, setIndicatorWidth] = useState<number>(0);
   const [activeGrid, setActiveGrid] = useState<number>(0);
-  // const [submitted, setSubmitted] = useState<number[]>(Array.from({ length: 4 }, () => 0));
-  // const submitted = [2, 1, 2, 0];
   const statusStates = Array.from({ length: words.length }).map(() =>
     useState(0)
   );

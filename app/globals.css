@@ -3,9 +3,12 @@
 @tailwind utilities;
 
 :root {
-  --background: #1a1a1a;
+  --background: #141414;
   --foreground: #e6e6e6;
   --font-ethnocentric: 'Ethnocentric', sans-serif;
+  --text-color-primary: #d1d5db;
+  --text-color-secondary: #8c8c8c;
+  --text-color-tertiary: #F19027;
 }
 
 /* @media (prefers-color-scheme: dark) {

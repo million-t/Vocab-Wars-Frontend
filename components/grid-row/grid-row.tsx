@@ -192,8 +192,8 @@ const GridRow: React.FC<GridRowProps> = ({
     setInitialLoad(false);
   }, [submittedGuess]);
 
-  for (let i = 0; i < cellCount; i++) {
-    useEffect(() => {
+  useEffect(() => {
+    for (let i = 0; i < cellCount; i++) {
       if (isSubmitted && focusRow - 1 === rowNum) {
         unfocusSpan(i);
         setTimeout(() => {
@@ -206,8 +206,7 @@ const GridRow: React.FC<GridRowProps> = ({
           }
         }, i * 100);
       }
-    }, [focusRow]);
-    useEffect(() => {
+
       if (
         gridOnFocus &&
         acceptsInputs &&
@@ -216,8 +215,8 @@ const GridRow: React.FC<GridRowProps> = ({
       ) {
         inputRefs.current[i]?.focus();
       }
-    }, [focusRow]);
-  }
+    }
+  }, [focusRow]);
 
   useEffect(() => {
     if (guess_score.length > 0) {

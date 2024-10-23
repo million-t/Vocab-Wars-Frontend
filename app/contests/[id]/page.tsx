@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import WarImage from "../../../public/images/warImage.jpg";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 const Contest = () => {
   const router = usePathname();

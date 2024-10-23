@@ -5,11 +5,12 @@ export default function Contests() {
       <div className=" flex flex-col items-center gap-4  justify-center">
         {Array.from({ length: 4 }).map((_, index) => {
           return (
-            <Link href={"./contests/1"} className="w-full md:max-w-[660px] ">
-              <div
-                key={index}
-                className="w-full min-h-25 md:max-w-[660px] bg-[#141414] shadow-md shadow-[#0c0c0c] rounded-md flex flex-col md:flex-row items-end justify-end"
-              >
+            <Link
+              key={index}
+              href={"./contests/1"}
+              className="w-full md:max-w-[660px] "
+            >
+              <div className="w-full min-h-25 md:max-w-[660px] bg-[#141414] shadow-md shadow-[#0c0c0c] rounded-md flex flex-col md:flex-row items-end justify-end">
                 <div className="w-full h-full p-6 flex flex-col gap-2 justify-end">
                   <p className="text-md font-black text-gray-300">
                     Test Contest 1

@@ -1,11 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
-
-import logo from "@/public/images/logo.png";
 import localFont from "next/font/local";
-import Image from "next/image";
 import NavBar from "@/components/nav-bar/nav";
-import Head from "next/head";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -53,17 +49,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable}  ${ethnocentric.variable} antialiased`}
       >
-        <div className="flex w-screen h-screen">
-          <div className="flex  w-full ">
-            <div className="hidden md:flex flex-col max-w-60  h-screen">
-              <div className="flex flex-col  p-2  h-[87.5px] outline outline-1 outline-[#262626] ">
-                <div className="relative w-full h-full ">
-                  <Image src={logo} alt="logo" fill objectFit="contain" />
-                </div>
-              </div>
+        <div className="flex w-screen h-screen overflow-hidden">
+          <div className="flex flex-col md:flex-row  w-full ">
+            <div className=" flex flex-col w-full md:max-w-60">
               <NavBar />
             </div>
-            <div className="w-full overflow-x-hidden overflow-y-scroll">
+            <div className="w-full h-full overflow-x-scroll overflow-y-scroll mt-12">
               {children}
             </div>
           </div>

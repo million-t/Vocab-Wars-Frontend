@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  --background: #141414;
+  --background: #1A1A1A;
   --foreground: #e6e6e6;
   --font-ethnocentric: 'Ethnocentric', sans-serif;
   --text-color-primary: #d1d5db;

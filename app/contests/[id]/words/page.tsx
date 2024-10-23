@@ -43,7 +43,7 @@ export default function ContestWords() {
   return (
     <div className="flex flex-col items-center">
       {/* Nav */}
-      <div className="flex w-full justify-center items-center outline outline-1 outline-[#262626] p-4">
+      <div className="flex w-full justify-center items-center  px-4 pb-4">
         <div className="w-full max-w-md">
           <div className=" w-full p-[1px] bg-gradient-to-bl from-[#DA8C38] via-transparent to-[#F19027] rounded ">
             <div

@@ -7,7 +7,6 @@ interface StandingEntry {
   score: number;
 }
 
-
 const Rank = () => {
   const contestId = 1;
   const [standings, setStandings] = useState<StandingEntry[]>([]);
@@ -15,25 +14,20 @@ const Rank = () => {
   useEffect(() => {
     const token = getToken();
 
-    // Create WebSocket connection to the standings endpoint
-
     const socket = new WebSocket(
       `ws://localhost:8000/ws/${contestId}/standings/`
     );
 
-    // Handle incoming messages from the server (updated standings)
     socket.onmessage = function (event) {
       const data = JSON.parse(event.data);
       console.log("Standings updated:", data.standings);
-      setStandings(data.standings.standings); // Update standings dynamically
+      setStandings(data.standings.standings);
     };
 
-    // Handle socket closure (e.g., network issues, server restart)
     socket.onclose = function (event) {
       console.error("WebSocket closed unexpectedly", event);
     };
 
-    // Clean up WebSocket connection when the component unmounts
     return () => {
       socket.close();
     };

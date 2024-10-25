@@ -43,8 +43,8 @@ export default function ContestWords() {
   return (
     <div className="flex flex-col items-center">
       {/* Nav */}
-      <div className="flex w-full justify-center items-center  px-4 pb-4">
-        <div className="w-full max-w-md">
+      <div className="flex w-full max-w-md justify-center items-center  px-4 pb-4">
+        <div className="w-full ">
           <div className=" w-full p-[1px] bg-gradient-to-bl from-[#DA8C38] via-transparent to-[#F19027] rounded ">
             <div
               className={` ${style.navWrapper}  rounded bg-[#141414] flex flex-col gap-3 p-[2px] w-full max-w-md mr-1 overflow-hidden`}
@@ -143,7 +143,7 @@ export default function ContestWords() {
       </div>
 
       {/* Keyboard */}
-      <div className="flex flex-col items-center gap-1 py-4 text-[10px] md:text-lg w-full h-auto  max-w-md">
+      <div className="flex flex-col items-center gap-1 py-4 px-2 text-[10px] md:text-lg w-full h-auto  max-w-md">
         <div className="flex gap-1 w-full h-auto">
           {row1Letters.map((letter, index) => {
             return (
@@ -207,7 +207,7 @@ export default function ContestWords() {
               </button>
             );
           })}
-          <button className="p-2  bg-[#141414] outline outline-1 outline-[#262626] rounded">
+          <button className="p-2 text-[8px] bg-[#141414] outline outline-1 outline-[#262626] rounded">
             Enter
           </button>
         </div>

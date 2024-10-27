@@ -7,6 +7,8 @@ import { FaUserCircle } from "react-icons/fa";
 import { IoIosCreate } from "react-icons/io";
 import Image from "next/image";
 import { RiArrowLeftDoubleFill } from "react-icons/ri";
+import { getToken } from "@/services/authService";
+import { jwtDecode } from "jwt-decode";
 
 const indicatorHeight = 40;
 const navItems = ["Home", "Daily", "Contests"];
@@ -19,6 +21,7 @@ interface NavRef {
 interface ClickOutsideEvent extends MouseEvent {
   target: Node;
 }
+
 const NavBar = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const path = usePathname();
@@ -26,6 +29,21 @@ const NavBar = () => {
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
   const [isNavVisible, setIsNavVisible] = useState(false);
+  const [user, setUsername] = useState<string>('LOGIN');
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+
+  const token = getToken();
+
+  useEffect(() => {
+    console.log(token);
+
+    if (token) {
+      const decodedToken: { username: string } = jwtDecode(token);
+      setIsAuthenticated(true);
+      setUsername(decodedToken.username);
+      
+    }
+  }, [token]);
 
   useEffect(() => {
     if (path.charAt(1) === "c") {
@@ -171,7 +189,7 @@ const NavBar = () => {
                   <FaUserCircle className="w-full h-full" />
                 </div>
                 <Link href="/login" className="px-2">
-                  <p className="text-sm">Login</p>
+                  <p className="text-sm">{user}</p>
                 </Link>
               </div>
             </div>

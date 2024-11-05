@@ -1,9 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import GridRow from "../grid-row/grid-row";
-import { setMaxIdleHTTPParsers } from "http";
 import { getGuesses } from "@/services/apiServices";
-import { preconnect } from "react-dom";
 
 const rowCount = 6;
 interface GridProps {
@@ -11,9 +9,9 @@ interface GridProps {
   contestId: number;
   gridOnFocus: boolean;
   acceptsInputs: boolean;
-  currentRow: number;
+  // currentRow: number;
   setCharInfo: (charArray: number[]) => void;
-  setStatus: (status: number | any) => void;
+  setStatus: (index: number) => void;
 }
 
 function Grid({
@@ -21,7 +19,7 @@ function Grid({
   contestId,
   gridOnFocus,
   acceptsInputs,
-  currentRow,
+  // currentRow,
   setCharInfo,
   setStatus,
 }: GridProps) {
@@ -42,7 +40,7 @@ function Grid({
     const fetchGuesses = async () => {
       try {
         const data = await getGuesses(contestId, wordId);
-        let submitted_guesses = data.data;
+        const submitted_guesses = Array.isArray(data) ? [] : data.data;
         submitted_guesses?.sort(
           (
             a: { timestamp: string | number | Date },
@@ -58,7 +56,7 @@ function Grid({
             setFound(true);
             setStatus(2);
           }
-          setStatus((prev: number) => Math.max(prev, 1));
+          setStatus(1);
           setIsSubmitted(true);
         }
         setGuesses(newGuesses);
@@ -78,11 +76,11 @@ function Grid({
       {[...Array(rowCount)].map((_, index) => (
         <GridRow
           key={index}
-          guess_num={index + 1}
+          // guess_num={index + 1}
           cellCount={5}
           wordId={wordId}
           contestId={contestId}
-          submitted={false}
+          // submitted={false}
           acceptsInputs={acceptsInputs}
           gridOnFocus={gridOnFocus}
           focusRow={focusRow}
@@ -90,7 +88,7 @@ function Grid({
           setFocusRow={setFocusRow}
           setFocusIndex={setFocusIndex}
           rowNum={index}
-          guess_text={[]}
+          // guess_text={[]}
           isSubmitted={isSubmitted}
           setIsSubmitted={setIsSubmitted}
           found={found}

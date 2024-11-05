@@ -1,19 +1,22 @@
 "use client";
-import React, { useRef, useState, useEffect, act } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import style from "./grid-row.module.css";
-import { submitGuess, getGuesses } from "@/services/apiServices";
+import { submitGuess } from "@/services/apiServices";
+import allWords from "@/data/filtered.json";
+
+const allWordsSet = new Set(allWords);
 
 interface GridRowProps {
   cellCount: number;
-  submitted: boolean;
-  guess_num: number;
+  // submitted: boolean;
+  // guess_num: number;
   acceptsInputs: boolean;
   gridOnFocus: boolean;
   focusRow: number;
   focusIndex: number;
   contestId: number;
   wordId: number;
-  guess_text: string[];
+  // guess_text: string[];
   rowNum: number;
   isSubmitted: boolean;
   found: boolean;
@@ -25,20 +28,20 @@ interface GridRowProps {
   setFocusRow: (index: number) => void;
   setFocusIndex: (index: number) => void;
   setCurCharInfo: (charArray: number[]) => void;
-  setStatus: (status: number | any) => void;
+  setStatus: (index: number) => void;
 }
 
 const GridRow: React.FC<GridRowProps> = ({
   cellCount = 5,
-  submitted,
-  guess_num,
+  // submitted,
+  // guess_num,
   acceptsInputs,
   gridOnFocus,
   focusRow,
   contestId,
   wordId,
   focusIndex,
-  guess_text = [],
+  // guess_text = [],
   rowNum,
   setFocusRow,
   setFocusIndex,
@@ -53,22 +56,19 @@ const GridRow: React.FC<GridRowProps> = ({
   setStatus,
 }) => {
   const [guess_score, setGuessScore] = useState([0, 0, 0, 0, 0]);
-  const [initialLoad, setInitialLoad] = useState(true);
+  // const [initialLoad, setInitialLoad ] = useState(true);
   const inputRefs = useRef<HTMLSpanElement[]>([]);
-  const flippedStates = Array.from({ length: cellCount }).map(() =>
-    useState(0)
-  );
-  const isFlipped = flippedStates.map(([state]) => state);
-  const setIsFlipped = flippedStates.map(([, setState]) => setState);
+  const [flippedStates, setFlippedStates] = useState<number[]>(Array(cellCount).fill(0));
   const [values, setValues] = useState(
     Array.from({ length: cellCount }).map((_, index) => {
       return { id: index, value: "" };
     })
   );
+  // const [statusMessage, setStatusMessage] = useState("");
 
   const handleChange = (
     index: number,
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.FormEvent<HTMLSpanElement>
   ): void => {
     const span = event.target as HTMLSpanElement;
     const value = span.innerText.toUpperCase();
@@ -92,6 +92,14 @@ const GridRow: React.FC<GridRowProps> = ({
     if (index < inputRefs.current.length - 1) {
       inputRefs.current[index + 1]?.focus();
     }
+  };
+
+  const setIsFlipped = (index: number, value: number) => {
+    setFlippedStates(prev => {
+      const newState = [...prev];
+      newState[index] = value;
+      return newState;
+    });
   };
 
   const handleKeyDown = (
@@ -136,19 +144,24 @@ const GridRow: React.FC<GridRowProps> = ({
   };
 
   const handleSubmit = async () => {
-    const guess = values.map((value) => value.value.trim()).join("");
+    const guess = values.map((value) => value.value.trim()).join("").toUpperCase();
     console.log(guess);
     if (guess.length < cellCount) {
       return;
     }
 
     try {
+      if (!allWordsSet.has(guess.toUpperCase())) {
+        console.log("I'm sorry I don't know this word.");
+        return;
+      }
+
       const response = await submitGuess(contestId, guess, "A", wordId);
       if (response.status === 200) {
         setIsSubmitted(true);
         setGuessScore(response.data.data);
 
-        guess_text = values.map((value) => value.value.trim());
+        // const guess_text = values.map((value) => value.value.trim());
         setFocusRow(rowNum + 1);
         setFocusIndex(0);
         if (response.data.correct) {
@@ -156,7 +169,7 @@ const GridRow: React.FC<GridRowProps> = ({
           setStatus(2);
           setFocusIndex(-1);
         } else {
-          setStatus((prev: number) => Math.max(prev, 1));
+          setStatus(1);
         }
       }
     } catch (error) {
@@ -180,16 +193,19 @@ const GridRow: React.FC<GridRowProps> = ({
         setTimeout(() => {
           // console.log(guess_score[i]);
           if (submittedScore[i] == 3) {
-            setIsFlipped[i](3);
+            setIsFlipped(i, 3);
+            // setIsFlipped[i](3);
           } else if (submittedScore[i] == 2) {
-            setIsFlipped[i](2);
+            // setIsFlipped[i](2);
+            setIsFlipped(i, 2);
           } else {
-            setIsFlipped[i](1);
+            setIsFlipped(i, 1);
+            // setIsFlipped[i](1);
           }
         }, i * 100);
       }
     }
-    setInitialLoad(false);
+    // setInitialLoad(false);
   }, [submittedGuess]);
 
   useEffect(() => {
@@ -198,11 +214,16 @@ const GridRow: React.FC<GridRowProps> = ({
         unfocusSpan(i);
         setTimeout(() => {
           if (guess_score[i] == 3) {
-            setIsFlipped[i](3);
+            setIsFlipped(i, 3);
+            // setIsFlipped[i](3);
+
           } else if (guess_score[i] == 2) {
-            setIsFlipped[i](2);
+            setIsFlipped(i, 2);
+            // setIsFlipped[i](2);
+
           } else {
-            setIsFlipped[i](1);
+            // setIsFlipped[i](1);
+            setIsFlipped(i, 1);
           }
         }, i * 100);
       }
@@ -251,7 +272,7 @@ const GridRow: React.FC<GridRowProps> = ({
         >
           <div
             className={`${style.flipCardInner} ${
-              isFlipped[index] > 0 ? style.flipped : ""
+              flippedStates[index] > 0 ? style.flipped : ""
             }`}
           >
             <div
@@ -259,7 +280,7 @@ const GridRow: React.FC<GridRowProps> = ({
             >
               <span
                 id={`${index}`}
-                tabIndex={isFlipped[index] > 0 || found || isSubmitted ? -1 : 0}
+                tabIndex={flippedStates[index] > 0 || found || isSubmitted ? -1 : 0}
                 key={index}
                 className={`${
                   gridOnFocus && focusRow === rowNum && acceptsInputs
@@ -270,7 +291,7 @@ const GridRow: React.FC<GridRowProps> = ({
                   gridOnFocus && focusRow === rowNum && acceptsInputs && !found
                 }
                 suppressContentEditableWarning
-                onInput={(event) => handleChange(index, event as any)}
+                onInput={(event) => handleChange(index, event)}
                 onKeyDown={(event) => handleKeyDown(index, event)}
                 ref={(el) => {
                   if (el) {
@@ -281,9 +302,9 @@ const GridRow: React.FC<GridRowProps> = ({
             </div>
             <div
               className={
-                isFlipped[index] === 1
+                flippedStates[index] === 1
                   ? style.NotFound
-                  : isFlipped[index] === 2
+                  : flippedStates[index] === 2
                   ? style.flipCardPositionWrong
                   : style.flipCardFound
               }

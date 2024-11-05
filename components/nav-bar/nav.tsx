@@ -14,13 +14,13 @@ const indicatorHeight = 40;
 const navItems = ["Home", "Daily", "Contests"];
 const paths = ["/", "/daily", "/contests"];
 
-interface NavRef {
-  current: HTMLElement | null;
-}
+// interface NavRef {
+//   current: HTMLElement | null;
+// }
 
-interface ClickOutsideEvent extends MouseEvent {
-  target: Node;
-}
+// interface ClickOutsideEvent extends MouseEvent {
+//   target: Node;
+// }
 
 const NavBar = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -29,7 +29,7 @@ const NavBar = () => {
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
   const [isNavVisible, setIsNavVisible] = useState(false);
-  const [user, setUsername] = useState<string>('LOGIN');
+  const [user, setUsername] = useState<string>("LOGIN");
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
   const token = getToken();
@@ -39,9 +39,10 @@ const NavBar = () => {
 
     if (token) {
       const decodedToken: { username: string } = jwtDecode(token);
-      setIsAuthenticated(true);
+      if (!isAuthenticated) {
+        setIsAuthenticated(true);
+      }
       setUsername(decodedToken.username);
-      
     }
   }, [token]);
 

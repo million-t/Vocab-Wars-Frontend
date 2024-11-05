@@ -1,9 +1,0 @@
-{
-    "id": 1,
-    "words": ["A"],
-    "start-time": "2023-01-01T00:00:00Z",
-    "end-time": "2025-01-01T00:00:00Z",
-    "score": [10],
-    "total-score": 5,
-    "weights": [15]
-}

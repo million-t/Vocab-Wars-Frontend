@@ -15,12 +15,23 @@ export default function ContestWords() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [indicatorWidth, setIndicatorWidth] = useState<number>(0);
   const [activeGrid, setActiveGrid] = useState<number>(0);
-  const statusStates = Array.from({ length: words.length }).map(() =>
-    useState(0)
+  // const statusStates = Array.from({ length: words.length }).map(() =>
+  //   useState(0)
+  // );
+  // const status = statusStates.map(([state]) => state);
+  // const setStatus = statusStates.map(([, setState]) => setState);
+  const [statusStates, setStatusStates] = useState<number[]>(
+    Array(words.length).fill(0)
   );
-  const status = statusStates.map(([state]) => state);
-  const setStatus = statusStates.map(([, setState]) => setState);
 
+  // Function to update a specific status
+  const setStatus = (index: number, value: number) => {
+    setStatusStates((prev) => {
+      const newState = [...prev];
+      newState[index] = Math.max(newState[index], value);
+      return newState;
+    });
+  };
   const handleWordClick = (index: number) => {
     setActiveIndex(index);
     // Todo
@@ -57,9 +68,9 @@ export default function ContestWords() {
                       className={`${
                         activeIndex === index ? "" : "bg-[#1A1A1A]"
                       } font-semibold w-full flex justify-center items-center gap-2 rounded-t-sm transition-shadow duration-500 ease-in-out hover:bg-transparent hover:shadow-inner  hover:shadow-[#ffffff]/25 ${
-                        status[index] === 2
+                        statusStates[index] === 2
                           ? "shadow-inner shadow-[#88d66c]/50"
-                          : status[index] === 1
+                          : statusStates[index] === 1
                           ? "shadow-inner  shadow-[#F19027]/50"
                           : ""
                       } `}
@@ -132,8 +143,8 @@ export default function ContestWords() {
                   contestId={1}
                   gridOnFocus={index === activeGrid}
                   acceptsInputs={true}
-                  currentRow={0}
-                  setStatus={setStatus[index]}
+                  // currentRow={0}
+                  setStatus={(value: number) => setStatus(index, value)}
                   setCharInfo={setCharInfo}
                 />
               </div>

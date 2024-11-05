@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   description: "A wordle contest platform.",
 };
 
-const indicatorHeight = 50;
+// const indicatorHeight = 50;
 export default function RootLayout({
   children,
 }: Readonly<{

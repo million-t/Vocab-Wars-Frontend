@@ -2,6 +2,7 @@ import axios from "axios";
 import { API_BASE_URL } from "./api_url";
 const TOKEN_KEY = "authToken";
 const REFRESH_TOKEN_KEY = "refreshToken";
+const isBrowser = typeof window !== "undefined";
 
 export const signup = async (
   username: string,
@@ -15,8 +16,10 @@ export const signup = async (
       email,
     });
     const { refresh, access } = response.data;
-    localStorage.setItem(REFRESH_TOKEN_KEY, refresh);
-    localStorage.setItem(TOKEN_KEY, access);
+    if (isBrowser) {
+      localStorage.setItem(REFRESH_TOKEN_KEY, refresh);
+      localStorage.setItem(TOKEN_KEY, access);
+    }
     return { refresh, access };
   } catch (error) {
     console.error("Error signing up:", error);
@@ -31,8 +34,10 @@ export const login = async (username: string, password: string) => {
       password,
     });
     const { refresh, access } = response.data;
-    localStorage.setItem(REFRESH_TOKEN_KEY, refresh);
-    localStorage.setItem(TOKEN_KEY, access);
+    if (isBrowser) {
+      localStorage.setItem(REFRESH_TOKEN_KEY, refresh);
+      localStorage.setItem(TOKEN_KEY, access);
+    }
     return { refresh, access };
   } catch (error) {
     console.error("Error logging in:", error);
@@ -41,16 +46,28 @@ export const login = async (username: string, password: string) => {
 };
 
 export const logout = () => {
-  localStorage.removeItem(TOKEN_KEY);
-  localStorage.removeItem(REFRESH_TOKEN_KEY);
+  if (isBrowser) {
+    localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem(REFRESH_TOKEN_KEY);
+  }
 };
 
 export const getToken = () => {
-  return localStorage.getItem(TOKEN_KEY);
+  if (isBrowser) {
+    return localStorage.getItem(TOKEN_KEY);
+  } else {
+    return null;
+  }
 };
 
 export const getRefreshToken = () => {
-  return localStorage.getItem(REFRESH_TOKEN_KEY);
+  try {
+    if (isBrowser) {
+      return localStorage.getItem(REFRESH_TOKEN_KEY);
+    }
+  } catch (error) {
+    return null;
+  }
 };
 
 export const refreshToken = async () => {
@@ -64,7 +81,9 @@ export const refreshToken = async () => {
       refresh,
     });
     const { access } = response.data;
-    localStorage.setItem(TOKEN_KEY, access);
+    if (isBrowser) {
+      localStorage.setItem(TOKEN_KEY, access);
+    }
     return access;
   } catch (error) {
     console.error("Error refreshing access token:", error);

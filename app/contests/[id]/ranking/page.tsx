@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { getToken } from "@/services/authService";
+// import { getToken } from "@/services/authService";
 
 interface StandingEntry {
   user: string;
@@ -12,7 +12,7 @@ const Rank = () => {
   const [standings, setStandings] = useState<StandingEntry[]>([]);
 
   useEffect(() => {
-    const token = getToken();
+    // const token = getToken();
 
     const socket = new WebSocket(
       `ws://localhost:8000/ws/${contestId}/standings/`

@@ -2,16 +2,83 @@
 import React, { useState, useRef, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import { RiDeleteBin6Line, RiAddLine } from "react-icons/ri";
+import { GiPerspectiveDiceSixFacesRandom } from "react-icons/gi";
 import "react-datepicker/dist/react-datepicker.css";
 const availabilityValues = ["private", "public"];
+import allWords from "@/data/filtered.json";
 
+const wordsSet = new Set(allWords);
 const CreateContest = () => {
   const [startDate, setStartDate] = useState<Date | null>(new Date());
   const [duration, setDuration] = useState<number>(10);
   const [words, setWords] = useState<string[]>([]);
+  const [wordsState, setWordsState] = useState<number[]>([]);
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [indicatorWidth, setIndicatorWidth] = useState<number>(0);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const getRandomWords = (count: number) => {
+    // Fisher-Yates algorithm
+    const randomWords = [];
+    const shuffled = [...allWords];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    for (let i = 0; i < count; i++) {
+      randomWords.push(shuffled[i]);
+    }
+    return randomWords;
+  };
+
+  const populateOneWord = (index: number) => {
+    const [word] = getRandomWords(1);
+    const newWords = [...words];
+    newWords[index] = word;
+    setWords(newWords);
+    const newWordsState = [...wordsState];
+    newWordsState[index] = 0;
+    setWordsState(newWordsState);
+  };
+
+  const removeWord = (index: number) => {
+    const newWords: string[] = [];
+    const newWordsState: number[] = [];
+    words.forEach((w, i) => {
+      if (i !== index) {
+        newWords.push(w);
+        newWordsState.push(wordsState[i]);
+      }
+    });
+    setWordsState(newWordsState);
+    setWords(newWords);
+  };
+
+  const handleWordChange = (index: number, value: string) => {
+    const newWords = [...words];
+    const newWordsState = [...wordsState];
+    newWords[index] = value.toUpperCase();
+    if (wordsSet.has(value.toUpperCase()) && value.length === 5) {
+      newWordsState[index] = 0;
+      setWordsState(newWordsState);
+    } else if (value === "") {
+      newWordsState[index] = 0;
+      setWordsState(newWordsState);
+    } else {
+      newWordsState[index] = 1;
+      setWordsState(newWordsState);
+    }
+    setWords(newWords);
+  };
+
+  const handleWordAdd = () => {
+    const newWords = [...words];
+    const newWordsState = [...wordsState];
+    newWords.push("");
+    newWordsState.push(0);
+    setWords(newWords);
+    setWordsState(newWordsState);
+  };
 
   useEffect(() => {
     if (containerRef.current) {
@@ -128,48 +195,52 @@ const CreateContest = () => {
                     <label className="block text-[#8c8c8c] italic mb-2 px-3 pt-2 w-full max-w-32 text-sm">
                       Word {index + 1}
                     </label>
-                    <input
-                      type="text"
-                      className="w-full rounded border border-solid bg-[#141414] border-[#262626] bg-clip-padding px-3 py-2 text-sm font-normal leading-tight transition duration-200 ease-linear focus:border-[#F19027] focus:outline-none text-[#F19027]"
-                      value={word}
-                      onChange={(e) => {
-                        const newWords = [...words];
-                        newWords[index] = e.target.value;
-                        setWords(newWords);
-                      }}
-                    />
-                    <button
-                      onClick={() => {
-                        const newWords: string[] = [];
-                        words.forEach((w, i) => {
-                          if (i !== index) {
-                            newWords.push(w);
-                          }
-                        });
-                        setWords(newWords);
-                      }}
-                      className="absolute top-0 end-0 p-2.5 h-full text-sm font-medium text-white bg-[#262626] rounded-e  outline outline-1 outline-[#262626] hover:bg-[#141414]  "
-                    >
-                      {" "}
-                      <RiDeleteBin6Line className="text-[#8c8c8c]" />{" "}
-                    </button>
+                    <div className="w-full relative flex">
+                      <button
+                        onClick={() => {
+                          populateOneWord(index);
+                        }}
+                        className=" px-2.5 h-full text-sm font-medium text-white bg-[#262626] rounded-s   outline-[#262626] hover:bg-[#141414]  "
+                      >
+                        {" "}
+                        <GiPerspectiveDiceSixFacesRandom className="text-[#8c8c8c]" />{" "}
+                      </button>
+
+                      <input
+                        type="text"
+                        className={`w-full h-full border border-solid bg-[#141414] border-[#262626] ${
+                          wordsState[index] === 1
+                            ? "border-red-300"
+                            : "border-[#262626]"
+                        }  bg-clip-padding px-3 py-2 text-sm font-normal leading-tight transition duration-200 ease-linear focus:border-[#F19027] focus:outline-none text-[#F19027]`}
+                        value={word}
+                        onChange={(e) => {
+                          handleWordChange(index, e.target.value);
+                        }}
+                      />
+                      <button
+                        onClick={() => {
+                          removeWord(index);
+                        }}
+                        className=" p-2.5 h-full text-sm font-medium text-white bg-[#262626] rounded-e   outline-[#262626] hover:bg-[#141414]  "
+                      >
+                        {" "}
+                        <RiDeleteBin6Line className="text-[#8c8c8c]" />{" "}
+                      </button>
+                    </div>
                   </div>
                 );
               })}
             </div>
             <button
-              onClick={() => {
-                const newWords = [...words];
-                newWords.push("");
-                setWords(newWords);
-              }}
+              onClick={handleWordAdd}
               className="my-3 py-2 px-4  bg-[#141414] text-xs outline outline-1 outline-[#262626] rounded text-gray-300 flex"
             >
               <RiAddLine className="text-base mr-2" /> Add Word
             </button>
           </div>
 
-          <button className="bg-[#8f8f8f] p-2 w-full mt-2 max-w-32  rounded  text-slate-800 bg-gradient-to-tr from-transparent   to-[#F19027]  rounded-r italic  font-light outline outline-1 outline-[#262626]">
+          <button className="bg-[#8f8f8f] p-2 w-full mt-2 mb-64 max-w-32  rounded  text-slate-800 bg-gradient-to-tr from-transparent   to-[#F19027]  rounded-r italic  font-light outline outline-1 outline-[#262626]">
             Create
           </button>
         </div>

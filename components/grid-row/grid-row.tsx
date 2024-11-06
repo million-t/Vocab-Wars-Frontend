@@ -58,7 +58,9 @@ const GridRow: React.FC<GridRowProps> = ({
   const [guess_score, setGuessScore] = useState([0, 0, 0, 0, 0]);
   // const [initialLoad, setInitialLoad ] = useState(true);
   const inputRefs = useRef<HTMLSpanElement[]>([]);
-  const [flippedStates, setFlippedStates] = useState<number[]>(Array(cellCount).fill(0));
+  const [flippedStates, setFlippedStates] = useState<number[]>(
+    Array(cellCount).fill(0)
+  );
   const [values, setValues] = useState(
     Array.from({ length: cellCount }).map((_, index) => {
       return { id: index, value: "" };
@@ -95,7 +97,7 @@ const GridRow: React.FC<GridRowProps> = ({
   };
 
   const setIsFlipped = (index: number, value: number) => {
-    setFlippedStates(prev => {
+    setFlippedStates((prev) => {
       const newState = [...prev];
       newState[index] = value;
       return newState;
@@ -137,6 +139,20 @@ const GridRow: React.FC<GridRowProps> = ({
     } else if (event.key === "Enter") {
       event.preventDefault();
       handleSubmit();
+    } else {
+      // alphabetic input
+      if (event.key.match(/^[a-zA-Z]$/)) {
+        const span = event.target as HTMLSpanElement;
+        span.innerText = event.key.toUpperCase();
+
+        const newValues = [...values];
+        newValues[index] = { id: index, value: event.key.toUpperCase() };
+        setValues(newValues);
+
+        if (index < inputRefs.current.length - 1) {
+          inputRefs.current[index + 1]?.focus();
+        }
+      }
     }
   };
   const unfocusSpan = (index: number) => {
@@ -144,7 +160,10 @@ const GridRow: React.FC<GridRowProps> = ({
   };
 
   const handleSubmit = async () => {
-    const guess = values.map((value) => value.value.trim()).join("").toUpperCase();
+    const guess = values
+      .map((value) => value.value.trim())
+      .join("")
+      .toUpperCase();
     console.log(guess);
     if (guess.length < cellCount) {
       return;
@@ -216,11 +235,9 @@ const GridRow: React.FC<GridRowProps> = ({
           if (guess_score[i] == 3) {
             setIsFlipped(i, 3);
             // setIsFlipped[i](3);
-
           } else if (guess_score[i] == 2) {
             setIsFlipped(i, 2);
             // setIsFlipped[i](2);
-
           } else {
             // setIsFlipped[i](1);
             setIsFlipped(i, 1);
@@ -280,16 +297,16 @@ const GridRow: React.FC<GridRowProps> = ({
             >
               <span
                 id={`${index}`}
-                tabIndex={flippedStates[index] > 0 || found || isSubmitted ? -1 : 0}
+                tabIndex={
+                  flippedStates[index] > 0 || found || isSubmitted ? -1 : 0
+                }
                 key={index}
                 className={`${
                   gridOnFocus && focusRow === rowNum && acceptsInputs
                     ? style.title
                     : style.nonFocusTitle
                 } `}
-                contentEditable={
-                  gridOnFocus && focusRow === rowNum && acceptsInputs && !found
-                }
+                contentEditable={false}
                 suppressContentEditableWarning
                 onInput={(event) => handleChange(index, event)}
                 onKeyDown={(event) => handleKeyDown(index, event)}

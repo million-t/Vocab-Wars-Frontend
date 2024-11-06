@@ -10,6 +10,7 @@ interface GridProps {
   gridOnFocus: boolean;
   acceptsInputs: boolean;
   // currentRow: number;
+  clickedChar: string;
   setCharInfo: (charArray: number[]) => void;
   setStatus: (index: number) => void;
 }
@@ -20,6 +21,7 @@ function Grid({
   gridOnFocus,
   acceptsInputs,
   // currentRow,
+  clickedChar,
   setCharInfo,
   setStatus,
 }: GridProps) {
@@ -35,42 +37,41 @@ function Grid({
   useEffect(() => {
     setCharInfo(curCharInfo);
   }, [curCharInfo]);
-
-  useEffect(() => {
-    const fetchGuesses = async () => {
-      try {
-        const data = await getGuesses(contestId, wordId);
-        const submitted_guesses = Array.isArray(data) ? [] : data.data;
-        submitted_guesses?.sort(
-          (
-            a: { timestamp: string | number | Date },
-            b: { timestamp: string | number | Date }
-          ) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
-        );
-        const newGuesses = [];
-        const newScores = [];
-        for (let i = 0; i < Math.min(6, submitted_guesses?.length); i++) {
-          newGuesses.push(submitted_guesses[i].guess_text);
-          newScores.push(submitted_guesses[i].score.data);
-          if (submitted_guesses[i].score.correct) {
-            setFound(true);
-            setStatus(2);
-          }
-          setStatus(1);
-          setIsSubmitted(true);
+  const fetchGuesses = async () => {
+    try {
+      const data = await getGuesses(contestId, wordId);
+      const submitted_guesses = Array.isArray(data) ? [] : data.data;
+      submitted_guesses?.sort(
+        (
+          a: { timestamp: string | number | Date },
+          b: { timestamp: string | number | Date }
+        ) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+      );
+      const newGuesses = [];
+      const newScores = [];
+      for (let i = 0; i < Math.min(6, submitted_guesses?.length); i++) {
+        newGuesses.push(submitted_guesses[i].guess_text);
+        newScores.push(submitted_guesses[i].score.data);
+        if (submitted_guesses[i].score.correct) {
+          setFound(true);
+          setStatus(2);
         }
-        setGuesses(newGuesses);
-        setScores(newScores);
-        // setGuesses(data);
-        // const newGuesses = submitted_guesses.map((guess: { guess_text: any; score: }) => guess.guess_text);
-      } catch (error) {
-        console.error("Error fetching guesses:", error);
+        setStatus(1);
+        setIsSubmitted(true);
       }
-    };
-
+      setGuesses(newGuesses);
+      setScores(newScores);
+      // setGuesses(data);
+      // const newGuesses = submitted_guesses.map((guess: { guess_text: any; score: }) => guess.guess_text);
+    } catch (error) {
+      console.error("Error fetching guesses:", error);
+    }
+  };
+  useEffect(() => {
     fetchGuesses();
   }, [contestId, wordId]);
 
+  
   return (
     <div className="flex flex-col gap-[2px] md:gap-1  ">
       {[...Array(rowCount)].map((_, index) => (
@@ -89,6 +90,7 @@ function Grid({
           setFocusIndex={setFocusIndex}
           rowNum={index}
           // guess_text={[]}
+          clickedChar={clickedChar}
           isSubmitted={isSubmitted}
           setIsSubmitted={setIsSubmitted}
           found={found}

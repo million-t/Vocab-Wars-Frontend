@@ -3,6 +3,7 @@ import React, { useRef, useState, useEffect } from "react";
 import style from "./grid-row.module.css";
 import { submitGuess } from "@/services/apiServices";
 import allWords from "@/data/filtered.json";
+import { set } from "react-datepicker/dist/date_utils";
 
 const allWordsSet = new Set(allWords);
 
@@ -17,6 +18,7 @@ interface GridRowProps {
   contestId: number;
   wordId: number;
   // guess_text: string[];
+  clickedChar: string;
   rowNum: number;
   isSubmitted: boolean;
   found: boolean;
@@ -42,6 +44,7 @@ const GridRow: React.FC<GridRowProps> = ({
   wordId,
   focusIndex,
   // guess_text = [],
+  clickedChar,
   rowNum,
   setFocusRow,
   setFocusIndex,
@@ -108,14 +111,26 @@ const GridRow: React.FC<GridRowProps> = ({
     index: number,
     event: React.KeyboardEvent<HTMLSpanElement>
   ): void => {
-    console.log(event.key);
+    // console.log(event.key);
 
     if (event.key === "ArrowRight" && index < inputRefs.current.length - 1) {
       inputRefs.current[index + 1]?.focus();
+      setFocusIndex(index + 1);
     } else if (event.key === "ArrowLeft" && index > 0) {
       inputRefs.current[index - 1]?.focus();
+      setFocusIndex(index - 1);
     } else if (event.key === "Backspace") {
       const span = event.target as HTMLSpanElement;
+      if (span.innerText === "") {
+        if (index > 0) {
+          inputRefs.current[index - 1]?.focus();
+          setFocusIndex(index - 1);
+        }
+        if (inputRefs.current[index - 1]) {
+          inputRefs.current[index - 1].innerHTML = "";
+        }
+        return;
+      }
       span.innerText = "";
 
       const newValues = [...values];
@@ -124,6 +139,7 @@ const GridRow: React.FC<GridRowProps> = ({
 
       if (index > 0) {
         inputRefs.current[index - 1]?.focus();
+        setFocusIndex(index - 1);
       }
     } else if (event.key === "Delete") {
       event.preventDefault();
@@ -135,6 +151,7 @@ const GridRow: React.FC<GridRowProps> = ({
       setValues(newValues);
       if (index < inputRefs.current.length - 1) {
         inputRefs.current[index + 1]?.focus();
+        setFocusIndex(index + 1);
       }
     } else if (event.key === "Enter") {
       event.preventDefault();
@@ -151,6 +168,7 @@ const GridRow: React.FC<GridRowProps> = ({
 
         if (index < inputRefs.current.length - 1) {
           inputRefs.current[index + 1]?.focus();
+          setFocusIndex(index + 1);
         }
       }
     }
@@ -159,19 +177,28 @@ const GridRow: React.FC<GridRowProps> = ({
     inputRefs.current[index]?.blur();
   };
 
+  const handleFocus = (index: number) => {
+    // console.log(gridOnFocus, focusRow, rowNum, acceptsInputs, index);
+    if (!gridOnFocus || focusRow !== rowNum || !acceptsInputs) {
+      return;
+    }
+
+    inputRefs.current[index]?.focus();
+    setFocusIndex(index);
+  };
+
   const handleSubmit = async () => {
     const guess = values
       .map((value) => value.value.trim())
       .join("")
       .toUpperCase();
-    console.log(guess);
+    // console.log(guess);
     if (guess.length < cellCount) {
       return;
     }
 
     try {
       if (!allWordsSet.has(guess.toUpperCase())) {
-        console.log("I'm sorry I don't know this word.");
         return;
       }
 
@@ -274,6 +301,38 @@ const GridRow: React.FC<GridRowProps> = ({
     }
   }, [gridOnFocus]);
 
+  useEffect(() => {
+    for (let i = 0; i < cellCount; i++) {
+      if (clickedChar === "") {
+        return;
+      }
+      if (
+        gridOnFocus &&
+        acceptsInputs &&
+        focusRow === rowNum &&
+        i === focusIndex
+      ) {
+        // innerText = event.key.toUpperCase();
+
+        // const newValues = [...values];
+        // newValues[index] = { id: index, value: event.key.toUpperCase() };
+        // setValues(newValues);
+
+        // if (index < inputRefs.current.length - 1) {
+        //   inputRefs.current[index + 1]?.focus();
+        // }
+        inputRefs.current[i].innerText = clickedChar;
+        const newValues = [...values];
+        newValues[i] = { id: i, value: clickedChar };
+        setValues(newValues);
+        if (i < inputRefs.current.length - 1) {
+          inputRefs.current[i + 1]?.focus();
+        }
+        setFocusIndex(i + 1);
+      }
+    }
+  }, [clickedChar]);
+
   // =================================================== return ===================================================
 
   return (
@@ -305,8 +364,11 @@ const GridRow: React.FC<GridRowProps> = ({
                   gridOnFocus && focusRow === rowNum && acceptsInputs
                     ? style.title
                     : style.nonFocusTitle
-                } `}
+                } w-full  h-full flex items-center justify-center`}
                 contentEditable={false}
+                onClick={() => {
+                  handleFocus(index);
+                }}
                 suppressContentEditableWarning
                 onInput={(event) => handleChange(index, event)}
                 onKeyDown={(event) => handleKeyDown(index, event)}

@@ -15,6 +15,7 @@ export default function ContestWords() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [indicatorWidth, setIndicatorWidth] = useState<number>(0);
   const [activeGrid, setActiveGrid] = useState<number>(0);
+  const [clickedChar, setClickedChar] = useState<string>("");
   // const statusStates = Array.from({ length: words.length }).map(() =>
   //   useState(0)
   // );
@@ -144,6 +145,7 @@ export default function ContestWords() {
                   gridOnFocus={index === activeGrid}
                   acceptsInputs={true}
                   // currentRow={0}
+                  clickedChar={clickedChar}
                   setStatus={(value: number) => setStatus(index, value)}
                   setCharInfo={setCharInfo}
                 />
@@ -160,7 +162,7 @@ export default function ContestWords() {
             return (
               <button
                 key={index}
-                // onClick={(letter) => {}}
+                onClick={() => {setClickedChar(letter)}}
                 className={`transition-all duration-300 p-2 bg-[#141414] outline outline-1 outline-[#262626] w-full h-auto aspect-[4/5] aspe rounded ${
                   charInfo[letter.charCodeAt(0) - 65] === 3
                     ? "shadow-inner  shadow-[#88d66c]/50 text-[#80d162]"
@@ -181,6 +183,7 @@ export default function ContestWords() {
             return (
               <button
                 key={index}
+                onClick={() => {setClickedChar(letter)}}
                 className={`transition-all duration-300 p-2 bg-[#141414] outline outline-1 outline-[#262626]  w-full aspect-[4/5] rounded ${
                   charInfo[letter.charCodeAt(0) - 65] === 3
                     ? "shadow-inner  shadow-[#88d66c]/50 text-[#80d162]"
@@ -204,6 +207,7 @@ export default function ContestWords() {
             return (
               <button
                 key={index}
+                onClick={() => {setClickedChar(letter)}}
                 className={`transition-all duration-300 p-2 bg-[#141414] outline outline-1 outline-[#262626] w-full aspect-[4/5] rounded ${
                   charInfo[letter.charCodeAt(0) - 65] === 3
                     ? "shadow-inner  shadow-[#88d66c]/50 text-[#80d162]"

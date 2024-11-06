@@ -20,7 +20,7 @@
   /* margin: 0; */
   /* padding: 6px; */
   caret-color: transparent;
-  display: inline-block;
+  /* display: inline-block; */
   font-family: var(--font-ethnocentric), Arial, Helvetica, sans-serif;
   /* width: 100%;
   height: 100%; */
@@ -37,7 +37,7 @@
   /* margin: 0; */
   /* padding: 6px; */
   caret-color: transparent;
-  display: inline-block;
+  /* display: inline-block; */
   font-family: var(--font-ethnocentric), Arial, Helvetica, sans-serif;
 
   /* width: 100%;
@@ -144,7 +144,7 @@
   content: "_";
   position: absolute;
   left: 50%;
-  transform: translate(-50%, 0);
+  transform: translate(-50%, 5%);
   animation: blink-caret 1s step-end infinite;
   
 }

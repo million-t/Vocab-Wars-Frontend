@@ -3,7 +3,6 @@ import React, { useRef, useState, useEffect } from "react";
 import style from "./grid-row.module.css";
 import { submitGuess } from "@/services/apiServices";
 import allWords from "@/data/filtered.json";
-import { set } from "react-datepicker/dist/date_utils";
 
 const allWordsSet = new Set(allWords);
 

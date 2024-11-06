@@ -17,7 +17,7 @@ interface GridRowProps {
   contestId: number;
   wordId: number;
   // guess_text: string[];
-  clickedChar: string;
+  clickedChar: string[];
   rowNum: number;
   isSubmitted: boolean;
   found: boolean;
@@ -302,7 +302,7 @@ const GridRow: React.FC<GridRowProps> = ({
 
   useEffect(() => {
     for (let i = 0; i < cellCount; i++) {
-      if (clickedChar === "") {
+      if (clickedChar[0] === "") {
         return;
       }
       if (
@@ -320,9 +320,9 @@ const GridRow: React.FC<GridRowProps> = ({
         // if (index < inputRefs.current.length - 1) {
         //   inputRefs.current[index + 1]?.focus();
         // }
-        inputRefs.current[i].innerText = clickedChar;
+        inputRefs.current[i].innerText = clickedChar[0];
         const newValues = [...values];
-        newValues[i] = { id: i, value: clickedChar };
+        newValues[i] = { id: i, value: clickedChar[0] };
         setValues(newValues);
         if (i < inputRefs.current.length - 1) {
           inputRefs.current[i + 1]?.focus();

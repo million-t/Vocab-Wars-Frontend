@@ -10,7 +10,7 @@ interface GridProps {
   gridOnFocus: boolean;
   acceptsInputs: boolean;
   // currentRow: number;
-  clickedChar: string;
+  clickedChar: string[];
   setCharInfo: (charArray: number[]) => void;
   setStatus: (index: number) => void;
 }

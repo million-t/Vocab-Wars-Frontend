@@ -14,7 +14,11 @@ const config: Config = {
 		  },
   		colors: {
   			background: 'hsl(var(--background))',
-  			foreground: 'hsl(var(--foreground))',
+  			foreground: 'hsl(var(--foreground))',  
+			'darker-background': 'var(--darker-background)',
+			'text-primary': 'var(--text-color-primary)',
+			'text-secondary': 'var(--text-color-secondary)',
+			'text-tertiary': 'var(--text-color-tertiary)',
   			card: {
   				DEFAULT: 'hsl(var(--card))',
   				foreground: 'hsl(var(--card-foreground))'

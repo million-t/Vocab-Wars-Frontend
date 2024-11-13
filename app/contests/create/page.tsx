@@ -6,6 +6,7 @@ import { GiPerspectiveDiceSixFacesRandom } from "react-icons/gi";
 import "react-datepicker/dist/react-datepicker.css";
 const availabilityValues = ["private", "public"];
 import allWords from "@/data/filtered.json";
+import { createContest } from "@/services/apiServices";
 
 const wordsSet = new Set(allWords);
 const CreateContest = () => {
@@ -15,6 +16,8 @@ const CreateContest = () => {
   const [wordsState, setWordsState] = useState<number[]>([]);
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [indicatorWidth, setIndicatorWidth] = useState<number>(0);
+  const [title, setTitle] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
   const containerRef = useRef<HTMLDivElement>(null);
 
   const getRandomWords = (count: number) => {
@@ -88,6 +91,23 @@ const CreateContest = () => {
     }
   }, [containerRef.current?.offsetWidth]);
 
+  const handleSubmit = () => {
+    try {
+      const data = {
+        title,
+        description,
+        availability: availabilityValues[activeIndex],
+        start_time: startDate?.toISOString(),
+        duration,
+        words,
+      };
+      const res = createContest(data);
+      console.log(res);
+    } catch (error) {
+      alert("Error creating contest");
+    }
+  };
+
   return (
     <div className="flex w-full h-full justify-center items-center">
       <div className="mt-12 w-full mx-2 max-w-2xl">
@@ -99,6 +119,8 @@ const CreateContest = () => {
               className="peer m-0 block h-[58px] italic  w-full rounded border border-solid border-[#262626] bg-transparent bg-clip-padding px-3 py-4 text-base font-normal leading-tight  transition duration-200 ease-linear placeholder:text-transparent focus:border-[#F19027] focus:pb-[0.625rem] focus:pt-[1.625rem]  focus:outline-none peer-focus:text-primary  text-[#F19027] dark:autofill:shadow-autofill  [&:not(:placeholder-shown)]:pb-[0.625rem] [&:not(:placeholder-shown)]:pt-[1.625rem]"
               // id="floatingInput"
               placeholder="Vocab Speed Challenge"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
             />
             <label className=" pointer-events-none absolute italic left-0 top-0 origin-[0_0] border border-solid text-[#8c8c8c] border-transparent px-3 py-4  transition-[opacity,_transform] duration-200 ease-linear peer-focus:-translate-y-2 peer-focus:translate-x-[0.15rem] peer-focus:scale-[0.75] peer-focus:text-[#8c8c8c] peer-[:not(:placeholder-shown)]:-translate-y-2 peer-[:not(:placeholder-shown)]:translate-x-[0.15rem]  peer-[:not(:placeholder-shown)]:scale-[0.75] motion-reduce:transition-none   ">
               Contest Title
@@ -109,6 +131,8 @@ const CreateContest = () => {
             <textarea
               className="peer h-40  italic w-full rounded border border-solid border-[#262626] bg-[#141414] bg-clip-padding px-3  text-xs font-normal leading-tight transition duration-200 ease-linear placeholder:text-transparent focus:border-[#F19027] focus:pb-[0.625rem] focus:pt-[1.625rem] focus:outline-none peer-focus:text-primary text-[#F19027] dark:autofill:shadow-autofill "
               placeholder="Contest Description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
             />
             <label className=" pointer-events-none absolute italic left-0 top-0 origin-[0_0] border border-solid text-[#8c8c8c] border-transparent px-3 py-4 transition-[opacity,_transform] duration-200 ease-linear peer-focus:-translate-y-2 peer-focus:translate-x-[0.15rem] peer-focus:scale-[0.75] peer-focus:text-[#8c8c8c] peer-[:not(:placeholder-shown)]:-translate-y-2 peer-[:not(:placeholder-shown)]:translate-x-[0.15rem] peer-[:not(:placeholder-shown)]:scale-[0.75] motion-reduce:transition-none">
               Description (optional)
@@ -240,7 +264,10 @@ const CreateContest = () => {
             </button>
           </div>
 
-          <button className="bg-[#8f8f8f] p-2 w-full mt-2 mb-64 max-w-32  rounded  text-slate-800 bg-gradient-to-tr from-transparent   to-[#F19027]  rounded-r italic  font-light outline outline-1 outline-[#262626]">
+          <button
+            onClick={handleSubmit}
+            className="bg-[#8f8f8f] p-2 w-full mt-2 mb-64 max-w-32  rounded  text-slate-800 bg-gradient-to-tr from-transparent   to-[#F19027]  rounded-r italic  font-light outline outline-1 outline-[#262626]"
+          >
             Create
           </button>
         </div>

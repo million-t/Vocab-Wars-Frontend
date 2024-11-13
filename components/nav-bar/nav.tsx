@@ -79,6 +79,13 @@ const NavBar = () => {
     }
   };
 
+  const getAbsoluteUrl = (path: string) => {
+    if (typeof window !== "undefined") {
+      return `${window.location.origin}${path}`;
+    }
+    return path; // Fallback for server-side rendering
+  };
+
   useEffect(() => {
     if (isNavVisible) {
       document.addEventListener("mousedown", handleClickOutside);
@@ -189,8 +196,8 @@ const NavBar = () => {
                 <div className=" w-8 h-8 ml-2 rounded-full flex justify-center items-center">
                   <FaUserCircle className="w-full h-full" />
                 </div>
-                <Link href="/login" className="px-2">
-                  <p className="text-sm">{user}</p>
+                <Link href={getAbsoluteUrl("/auth/login")} className="px-2">
+                  <p className="text-sm">{user ? user : "Login"}</p>
                 </Link>
               </div>
             </div>

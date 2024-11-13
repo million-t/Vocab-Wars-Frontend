@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+
+
 import "./globals.css";
 import localFont from "next/font/local";
 import NavBar from "@/components/nav-bar/nav";
@@ -60,6 +62,15 @@ export default function RootLayout({
           </div>
         </div>
       </body>
+      {/* <!-- Google tag (gtag.js) --> */}
+      {/* <script async src="https://www.googletagmanager.com/gtag/js?id=G-K9C5J9E3P1"></script>
+      <script>
+       { window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-K9C5J9E3P1');}
+      </script> */}
     </html>
   );
 }

@@ -129,7 +129,7 @@ const CreateContest = () => {
           {/* Description */}
           <div className="relative  rounded">
             <textarea
-              className="peer h-40  italic w-full rounded border border-solid border-[#262626] bg-[#141414] bg-clip-padding px-3  text-xs font-normal leading-tight transition duration-200 ease-linear placeholder:text-transparent focus:border-[#F19027] focus:pb-[0.625rem] focus:pt-[1.625rem] focus:outline-none peer-focus:text-primary text-[#F19027] dark:autofill:shadow-autofill "
+              className="peer h-40  italic w-full rounded border border-solid border-[#262626] bg-[#141414] bg-clip-padding px-3  text-xs font-normal leading-tight transition duration-200 ease-linear placeholder:text-transparent focus:border-[#F19027] focus:pb-[0.625rem] pt-[1.625rem] focus:outline-none peer-focus:text-primary text-[#F19027] dark:autofill:shadow-autofill "
               placeholder="Contest Description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
